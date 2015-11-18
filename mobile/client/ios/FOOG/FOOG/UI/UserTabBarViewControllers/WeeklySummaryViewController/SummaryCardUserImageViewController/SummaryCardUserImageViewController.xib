@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="SummaryCardUserImageViewController" customModule="FantasticHuman" customModuleProvider="target">
+            <connections>
+                <outlet property="loadingIndicator" destination="GwC-TF-yQM" id="lsM-qO-Du4"/>
+                <outlet property="userImage" destination="MrW-SV-ja8" id="qzj-s6-CSQ"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleAspectFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="MrW-SV-ja8" customClass="PFImageView">
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                    <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                </imageView>
+                <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="GwC-TF-yQM">
+                    <rect key="frame" x="150" y="230" width="20" height="20"/>
+                </activityIndicatorView>
+            </subviews>
+            <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstItem="MrW-SV-ja8" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="RvQ-9i-2tF"/>
+                <constraint firstAttribute="centerX" secondItem="GwC-TF-yQM" secondAttribute="centerX" id="YL7-5V-Ne4"/>
+                <constraint firstAttribute="trailing" secondItem="MrW-SV-ja8" secondAttribute="trailing" id="aTs-QC-qH6"/>
+                <constraint firstItem="MrW-SV-ja8" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="b1x-FN-HTT"/>
+                <constraint firstAttribute="centerY" secondItem="GwC-TF-yQM" secondAttribute="centerY" id="cNW-tK-txe"/>
+                <constraint firstAttribute="bottom" secondItem="MrW-SV-ja8" secondAttribute="bottom" id="otx-Wa-F8H"/>
+            </constraints>
+            <simulatedStatusBarMetrics key="simulatedStatusBarMetrics" statusBarStyle="lightContent"/>
+            <nil key="simulatedTopBarMetrics"/>
+            <nil key="simulatedBottomBarMetrics"/>
+            <simulatedScreenMetrics key="simulatedDestinationMetrics"/>
+        </view>
+    </objects>
+</document>

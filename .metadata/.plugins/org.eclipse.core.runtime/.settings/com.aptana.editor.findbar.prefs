@@ -1,0 +1,3 @@
+FIND_BAR_DECORATOR_FIND_ENTRIES=\#\n\#Fri Jul 24 20\:52\:32 EDT 2015\n8\=mealsForWeek\n7\=console\n6\=query\n5\=Notifications\n4\=Card\n3\=calculateWeekSummary\n2\=error\n1\=createSummaryCards\n0\=saveUserMealSummary\n
+FIND_BAR_DECORATOR_REPLACE_ENTRIES=\#\n\#Fri Jul 10 23\:09\:15 EDT 2015\n9\=N.NOTIFICATIONS_\n8\=N.NOTIFICATION_TYPE_\n7\=var \n6\=N.sendNotification\n5\=SummaryModule\n4\=Notifications.\n3\=notificationType\\\=\n2\=;\n10\=exports.\n1\=utils.fieldChanged(changedFields, "\n0\="\n
+eclipse.preferences.version=1

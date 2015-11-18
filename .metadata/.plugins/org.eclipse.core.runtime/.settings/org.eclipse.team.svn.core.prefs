@@ -1,0 +1,6 @@
+eclipse.preferences.version=1
+externalMigrateFromAuthorizationDatabase/isMigrated=true
+migrateFromAuthorizationDatabase/isMigrated=true
+repositories/605bd1c5f020001510fc91249aa6793c=605bd1c5f020001510fc91249aa6793c;http\://download.eclipse.org/technology/subversive/3.0/update-site/;http\://download.eclipse.org/technology/subversive/3.0/update-site/;branches;tags;trunk;true;;;;false;;;0
+repositories/807b6ce5f020001510fc91249aa6793c=807b6ce5f020001510fc91249aa6793c;https\://subversion.assembla.com/svn/fantastic-human-1;https\://subversion.assembla.com/svn/fantastic-human-1;branches;tags;trunk;true;510dce2a-8ebf-46f3-943d-96bf0f84f922;https\://subversion.assembla.com/svn/fantastic-human-1;;false;<https\://subversion.assembla.com\:443> Assembla Restricted Area;;0
+synch_info/contigous=true

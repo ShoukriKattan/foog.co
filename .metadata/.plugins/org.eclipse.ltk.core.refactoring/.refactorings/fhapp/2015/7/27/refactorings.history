@@ -1,0 +1,3 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">&#x0A;<refactoring comment="Rename resource &apos;fhapp/cloud/summary&apos; to &apos;summary.js&apos;" description="Rename resource &apos;summary&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="cloud/summary" name="summary.js" stamp="1435974019436" updateReferences="true"/>&#x0A;<refactoring comment="Rename resource &apos;fhapp/cloud/utils&apos; to &apos;utils.js&apos;" description="Rename resource &apos;utils&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="cloud/utils" name="utils.js" stamp="1435976422861" updateReferences="true"/>
+</session>

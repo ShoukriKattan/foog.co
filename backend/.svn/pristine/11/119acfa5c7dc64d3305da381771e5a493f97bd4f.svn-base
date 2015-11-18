@@ -1,0 +1,14 @@
+{
+    "applications": {
+        "UserCoach": {
+            "applicationId": "cfoOhbWtDiIWQ8bJL2DNmiji8MBOj0fpDa7mgYlD", 
+            "masterKey": "kq6ZhQWHBLvb8CIFDKdw56IAhFysUjmEBWfTDsYp"
+        }, 
+        "_default": {
+            "link": "UserCoach"
+        }
+    }, 
+    "global": {
+        "parseVersion": "1.4.0"
+    }
+}

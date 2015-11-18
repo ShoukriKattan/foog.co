@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="FHPickerViewController" customModule="FantasticHuman" customModuleProvider="target">
+            <connections>
+                <outlet property="picker" destination="odf-q5-7ZQ" id="09F-2v-GZZ"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="odf-q5-7ZQ">
+                    <rect key="frame" x="0.0" y="324" width="320" height="162"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="150" id="r44-t3-i9L"/>
+                    </constraints>
+                    <connections>
+                        <outlet property="dataSource" destination="-1" id="dJz-lQ-wP7"/>
+                        <outlet property="delegate" destination="-1" id="R4p-8G-zMg"/>
+                    </connections>
+                </pickerView>
+                <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" barStyle="black" translucent="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3AI-3H-ZZb">
+                    <rect key="frame" x="0.0" y="286" width="320" height="44"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="44" id="lfv-Aa-EME"/>
+                    </constraints>
+                    <items>
+                        <barButtonItem title="Cancel" style="plain" id="bRO-70-2At">
+                            <connections>
+                                <action selector="cancelClicked:" destination="-1" id="sMI-Cf-gOA"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem systemItem="flexibleSpace" id="m22-yC-iKu"/>
+                        <barButtonItem title="Done" style="plain" id="hqE-lo-vzL">
+                            <connections>
+                                <action selector="doneClicked:" destination="-1" id="Duf-Y7-O00"/>
+                            </connections>
+                        </barButtonItem>
+                    </items>
+                    <color key="barTintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                </toolbar>
+            </subviews>
+            <color key="backgroundColor" white="0.0" alpha="0.35000000000000003" colorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstAttribute="bottom" secondItem="odf-q5-7ZQ" secondAttribute="bottom" id="3Pw-mE-gDT"/>
+                <constraint firstAttribute="trailing" secondItem="odf-q5-7ZQ" secondAttribute="trailing" id="4RL-MQ-MGK"/>
+                <constraint firstAttribute="trailing" secondItem="3AI-3H-ZZb" secondAttribute="trailing" id="5T6-Ug-z8C"/>
+                <constraint firstItem="odf-q5-7ZQ" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="HnO-eM-QyO"/>
+                <constraint firstItem="3AI-3H-ZZb" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="JMo-vT-ShL"/>
+                <constraint firstItem="odf-q5-7ZQ" firstAttribute="top" secondItem="3AI-3H-ZZb" secondAttribute="bottom" id="fdJ-aP-55H"/>
+            </constraints>
+            <nil key="simulatedStatusBarMetrics"/>
+            <nil key="simulatedTopBarMetrics"/>
+            <nil key="simulatedBottomBarMetrics"/>
+            <simulatedScreenMetrics key="simulatedDestinationMetrics"/>
+        </view>
+    </objects>
+</document>

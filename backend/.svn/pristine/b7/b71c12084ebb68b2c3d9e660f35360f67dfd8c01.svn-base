@@ -1,0 +1,242 @@
+var Notifications = require("cloud/notifications.js");
+var utils = require("cloud/utils.js");
+
+var afterSaveMeal = function(request) {
+
+	var meal = request.object;
+
+	var mealCreatedAt = meal.get("appCreatedAt");
+
+	var coachReviewedAt = meal.get("coachReviewedAt");
+	var userReviewedAt = meal.get("userReviewedAt");
+
+	var coachCommentedAt = meal.get("coachCommentedAt");
+	var userCommentedAt = meal.get("userCommentedAt");
+
+	var owner = meal.get("user");
+	var coach = meal.get("coach");
+
+	var imageOriginal = meal.get("imageOriginal");
+
+	if (owner && coach) {
+
+		var today = new Date();
+
+		if (utils.setAndWithinSeconds(coachCommentedAt, today)) {
+
+			Notifications.sendNotification(owner, Notifications.NOTIFICATION_TYPE_COACH_COMMENTED, owner, coach, meal);
+
+			return;
+		}
+
+		if (utils.setAndWithinSeconds(userCommentedAt, today)) {
+
+			Notifications.sendNotification(coach, Notifications.NOTIFICATION_TYPE_USER_COMMENTED, owner, coach, meal);
+
+			return;
+		}
+
+		// If within a minute range..
+		if (utils.setAndWithinSeconds(coachReviewedAt, today)) {
+
+			// This should be a notification ... that coach has reviewed ..
+			//Check if we already have a notification for this meal.. If there is Skip this one ...
+			// Check if notification date is older than yyyy ... send another notification...
+
+			Notifications.sendNotification(owner, Notifications.NOTIFICATION_TYPE_COACH_REVIEWED_MEAL, owner, coach, meal);
+
+			return;
+		}
+
+		if (utils.setAndWithinSeconds(mealCreatedAt, today) && imageOriginal) {
+			// Check if we already notified for this meal.. if we did then Skip...
+
+			Notifications.sendNotification(coach, Notifications.NOTIFICATION_TYPE_NEW_MEAL, owner, coach, meal);
+
+			return;
+		}
+
+	} else {
+		// Ignore
+	}
+
+};
+
+var beforeSaveUser = function(request, response) {
+
+	//TODO: Revise this code...
+	// Hold CoachID
+
+	var coachId = request.object.get("coachId");
+
+	console.log("Coach ID coming back " + coachId);
+
+	var objectId = request.object.id;
+
+	// Make sure this call is to register new Coach.
+	if (coachId && !objectId) {
+		// Make sure that CoachID is not already taken.
+		var query = new Parse.Query("User");
+		query.equalTo("coachId", coachId);
+		query.first({
+			success : function(object) {
+				if (object) {
+					response.error("CoachIdIsTaken");
+				} else {
+					response.success();
+				}
+			},
+			error : function(error) {
+				response.error("Could not validate uniqueness CoachID");
+			}
+		});
+	} else {
+		response.success();
+	}
+};
+
+var beforeSaveCoachUserLink = function(request, response) {
+
+	//TODO: Revise this code.
+	// Hold CoachID
+	var coachId = request.object.get("coachId");
+
+	console.log("Coach ID sent before save coachUserLink " + coachId);
+	if (!coachId) {
+		response.success();
+		return;
+	}
+	//TODO: Add Coach to User Table.
+	// Find Coach User object with provided CoachID.
+	var query = new Parse.Query(Parse.User);
+	query.equalTo("coachId", coachId);
+	query.first({
+		success : function(coach) {
+			if (coach) {
+				// Replace CoachID within CoachUserLink with Coach User object.
+				request.object.unset("coachId");
+				request.object.set("coach", coach);
+
+				response.success();
+			} else {
+				response.error("CoachNotFound");
+			}
+		},
+		error : function(error) {
+			response.error("QueryError");
+		}
+	});
+
+};
+
+var afterSaveCoachUserLink = function(request) {
+
+	//Validate if this is a new user link and not an update...
+
+	var today = new Date();
+	var coachUserLink = request.object;
+
+	var linkedAt = coachUserLink.get('linkedAt');
+	var rejectedAt = coachUserLink.get("rejectedAt");
+	var cancelledAt = coachUserLink.get("cancelledAt");
+	var terminatedAt = coachUserLink.get("terminatedAt");
+	var terminatedBy = coachUserLink.get("terminatedBy");
+	var coach = coachUserLink.get("coach");
+	var user = coachUserLink.get("user");
+
+	// User and Coach need both be set
+	if (user && coach) {
+
+		if (utils.setAndWithinSeconds(linkedAt, today)) {
+
+			var userQuery = new Parse.Query(Parse.User);
+
+			userQuery.get(user.objectId).then(function(theUser) {
+
+				if (utils.setAndWithinSeconds(terminatedAt, today)) {
+					theUser.unset("coach");
+				} else {
+					theUser.set("coach", coach);
+				}
+
+				return theUser.save();
+			}).then(function() {
+
+				if (utils.setAndWithinSeconds(terminatedAt, today)) {
+
+					if (terminatedBy == user) {
+						Notifications.sendNotification(coach, Notifications.NOTIFICATION_TYPE_USER_UNLINKED, user, coach);
+					} else {
+						Notifications.sendNotification(user, Notifications.NOTIFICATION_TYPE_COACH_UNLINKED, user, coach);
+					}
+
+				} else {
+
+					Notifications.sendNotification(user, Notifications.NOTIFICATION_TYPE_COACH_ACCEPTED_LINK_REQUEST, user, coach);
+
+				}
+
+			}, function(error) {
+				console.error(JSON.stringify(error));
+			});
+
+			return;
+
+		} else if (utils.setAndWithinSeconds(rejectedAt, today)) {
+
+			// Coach rejected linking request ... Oh no !
+			// User needs to be notified
+			Notifications.sendNotification(user, Notifications.NOTIFICATION_TYPE_COACH_REJECTED_LINK_REQUEST, user, coach);
+
+		} else if (utils.setAndWithinSeconds(cancelledAt, today)) {
+			// User got bored of waiting and decided to cancel.
+			// Coach needs to be notified
+			Notifications.sendNotification(coach, Notifications.NOTIFICATION_TYPE_USER_CANCELLED_LINK_REQUEST, user, coach);
+
+		} else {
+			// if not linked nor rejected, this is a new request.
+			// Coach needs to be notified
+			Notifications.sendNotification(coach, Notifications.NOTIFICATION_TYPE_USER_SENT_LINK_REQUEST, user, coach);
+
+			return;
+
+		}
+
+	} else {
+
+		console.error("Coach user link added but no user and coach ");
+	}
+
+};
+
+var afterSaveSummaryCard = function(request) {
+
+	var summaryCard = request.object;
+
+	var today = new Date();
+
+	var user = summaryCard.get("user");
+	var coach = summaryCard.get("coach");
+
+	var summaryCreatedAt = summaryCard.get("summaryCreatedAt");
+
+	// If what is being saved is a complete summary Card -
+	if (utils.setAndWithinSeconds(summaryCreatedAt, today)) {
+
+		// Notify user and Notify Coach
+
+		Notifications.sendNotification(user, Notifications.NOTIFICATION_TYPE_SUMMARY_AVAIALABLE_TO_USER, user, coach, null, summaryCard).then(function() {
+
+			Notifications.sendNotification(coach, Notifications.NOTIFICATION_TYPE_SUMMARY_AVAILABLE_TO_COACH, user, coach, null, summaryCard);
+
+		});
+
+	}
+
+};
+
+exports.afterSaveMeal = afterSaveMeal;
+exports.afterSaveSummaryCard = afterSaveSummaryCard;
+exports.beforeSaveUser = beforeSaveUser;
+exports.beforeSaveCoachUserLink = beforeSaveCoachUserLink;
+exports.afterSaveCoachUserLink = afterSaveCoachUserLink;

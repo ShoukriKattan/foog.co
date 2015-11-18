@@ -1,0 +1,155 @@
+var moment = require('cloud/moment-timezone-with-data.js');
+
+var REMINDER_DAYS_COACH_HAS_LINKS = 5;
+
+var MEAL_REVIEW_REMINDER_DAYS = 3;
+
+var SUMMARY_SET_REMINDER_DAYS = 4;
+
+var NO_MEALS_SUBMITTED_REMINDER_DAYS = 2;
+
+var NO_MEALS_SUBMITTED_REMIND_EVERY = 3;
+
+var remindCoachUserLinks = function() {
+
+	var today = moment();
+	var xDaysAgo = today.clone().subtract(REMINDER_DAYS_COACH_HAS_LINKS, 'days');
+
+	var CoachUserLink = Parse.Object.extend("CoachUserLink");
+
+	//Not linked, not rejected, not cancelled, last reminder x days ago.
+	var remindedBeforeXDays = new Parse.Query(CoachUserLink);
+	remindedBeforeXDays.doesNotExist('linkedAt');
+	remindedBeforeXDays.doesNotExist('rejectedAt');
+	remindedBeforeXDays.doesNotExist('cancelledAt');
+	remindedBeforeXDays.lessThan('remindedAt', xDaysAgo.toDate);
+
+	return remindedBeforeXDays.find().then(function(coachUserLinks) {
+
+		var promises = new Array();
+
+		for (var i = 0; i < coachUserLinks.length; i++) {
+
+			// Simple ... set a date and save.
+
+			var link = coachUserLinks[i];
+			link.set('remindedAt', new Date());
+			promise = link.save();
+
+			promises.push(promise);
+		}
+		return Parse.Promise.when(promises);
+	});
+
+};
+
+var remindNonReviewedMeals = function() {
+
+	var today = moment();
+	var xDaysAgo = today.clone().subtract(MEAL_REVIEW_REMINDER_DAYS, 'days');
+
+	var Meal = Parse.Object.extend("Meal");
+
+	//Coach has not reviewed. and we have not reminded in x days and we have not created summary for them.
+	var remindedBeforeXDays = new Parse.Query(Meal);
+	remindedBeforeXDays.doesNotExist('coachReviewedAt');
+	remindedBeforeXDays.doesNotExist('summaryCreatedAt');
+	remindedBeforeXDays.lessThan('remindedAt', xDaysAgo.toDate);
+
+	return remindedBeforeXDays.find().then(function(meals) {
+
+		var promises = new Array();
+
+		for (var i = 0; i < meals.length; i++) {
+
+			// Simple ... set a date and save.
+
+			var meal = meals[i];
+			meal.set('remindedAt', new Date());
+			promise = meal.save();
+
+			promises.push(promise);
+		}
+		return Parse.Promise.when(promises);
+	});
+
+};
+
+var remindUserNoMealsSubmitted = function() {
+
+	// For all fucking users. for each user, check last meal submitted date time.
+
+	var today = moment();
+	var xDaysAgo = today.clone().subtract(NO_MEALS_SUBMITTED_REMINDER_DAYS, 'days');
+
+	var processDaysAgo = today.clone().subtract(NO_MEALS_SUBMITTED_REMIND_EVERY, 'days');
+
+	var ClientInfo = Parse.Object.extend("ClientInfo");
+	var clientInfoQuery = new Parse.Query(ClientInfo);
+	clientInfoQuery.lessThan("mealReminderProcessDate", processDaysAgo.toDate());
+
+	// All ClientInfo where last reminded is x days ago.
+	return query.find().then(function(clientInfoResults) {
+
+		// See last date of meals .. and notify immediately.. or if meals are ok, then ... also set remindedAt
+		var promises = new Array();
+
+		for (var i = 0; i < clientInfoResults.length; i++) {
+
+			var clientInfo1 = clientInfoResults[i];
+
+			var user = clientInfo1.get("user");
+			var coach = clientInfo1.get("coach");
+
+			//Query meals, meals need to be UNLOCKED, if Locked, them Summary has already run ... we should not produce a new summary
+			var query = new Parse.Query("Meal");
+			query.equalTo("user", user);
+			query.equalTo("coach", coach);
+			query.doesNotExist("summaryCreatedAt");
+			query.greaterThanOrEqualTo("appCreatedAt", xDaysAgo.toDate());
+			query.ascending("appCreatedAt");
+
+			var promise = query.first().then(function(theMeal) {
+
+				if (!theMeal) {
+					// return notify
+					clientInfo1.set("mealReminderDate", new Date());
+					return clientInfo1.save();
+				} else {
+					return Parse.Promise.as('UserIsSubmittingMeals');
+				}
+
+			}).then(function() {
+				clientInfo1.set("mealReminderProcessDate", new Date());
+
+				return clientInfo1.save();
+			});
+
+			promises.push(promise);
+
+		}
+
+		return Parse.Promise.when(promises);
+
+	});
+
+};
+
+var remindCoachEndOfWeek = function() {
+
+
+
+};
+
+
+exports.runReminders = function() {
+
+	// Once we remind, we need to save new date....
+
+	var promises = new Array();
+	promises.push(remindCoachUserLinks());
+	promises.push(remindNonReviewedMeals());
+	promises.push(remindUserNoMealsSubmitted());
+
+	return Parse.Promise.when(promises);
+};

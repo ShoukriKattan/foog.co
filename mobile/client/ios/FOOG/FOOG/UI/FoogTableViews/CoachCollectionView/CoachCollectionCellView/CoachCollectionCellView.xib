@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14E46" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="gTV-IL-0wX" customClass="CoachCollectionCellView" customModule="FantasticHuman" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="100" height="150"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                <rect key="frame" x="0.0" y="0.0" width="100" height="150"/>
+                <subviews>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="JAH-JZ-YhO" userLabel="User Image" customClass="PFImageView">
+                        <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="100" id="53f-e6-SLL"/>
+                            <constraint firstAttribute="width" constant="100" id="Gme-cU-WPh"/>
+                            <constraint firstAttribute="width" constant="100" id="rfe-N5-K6i"/>
+                        </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="rfe-N5-K6i"/>
+                            </mask>
+                        </variation>
+                    </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zMi-Ng-7B7" userLabel="Fisrt Name">
+                        <rect key="frame" x="0.0" y="110" width="100" height="20"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="20" id="AnW-CI-GZg"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="15"/>
+                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2o3-Oe-F0B" userLabel="Last Name">
+                        <rect key="frame" x="0.0" y="130" width="100" height="20"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="20" id="33p-3X-aTv"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="15"/>
+                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="white" translatesAutoresizingMaskIntoConstraints="NO" id="RZE-UJ-7pa">
+                        <rect key="frame" x="40" y="41" width="20" height="20"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="20" id="DpC-3C-tGB"/>
+                            <constraint firstAttribute="width" constant="20" id="wTw-Eh-EW4"/>
+                        </constraints>
+                        <color key="color" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </activityIndicatorView>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="IOe-Jt-7pw">
+                        <rect key="frame" x="70" y="0.0" width="30" height="30"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="User_Notification_Icon.png" translatesAutoresizingMaskIntoConstraints="NO" id="RON-BU-DWU">
+                                <rect key="frame" x="0.0" y="0.0" width="30" height="30"/>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.78000000000000003" translatesAutoresizingMaskIntoConstraints="NO" id="HWC-KK-LCc" userLabel="Notification_Count">
+                                <rect key="frame" x="1" y="0.0" width="29" height="29"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="14"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="30" id="340-yz-cUh"/>
+                            <constraint firstAttribute="trailing" secondItem="HWC-KK-LCc" secondAttribute="trailing" id="4dU-wi-qfW"/>
+                            <constraint firstAttribute="bottom" secondItem="RON-BU-DWU" secondAttribute="bottom" id="AsN-6V-R3k"/>
+                            <constraint firstAttribute="trailing" secondItem="RON-BU-DWU" secondAttribute="trailing" id="YKO-fs-GF5"/>
+                            <constraint firstItem="RON-BU-DWU" firstAttribute="top" secondItem="IOe-Jt-7pw" secondAttribute="top" id="bhf-xx-oVz"/>
+                            <constraint firstItem="HWC-KK-LCc" firstAttribute="leading" secondItem="IOe-Jt-7pw" secondAttribute="leading" constant="1" id="cfe-BO-GvY"/>
+                            <constraint firstItem="RON-BU-DWU" firstAttribute="leading" secondItem="IOe-Jt-7pw" secondAttribute="leading" id="eOc-MO-nw9"/>
+                            <constraint firstItem="HWC-KK-LCc" firstAttribute="top" secondItem="IOe-Jt-7pw" secondAttribute="top" id="jtd-kv-uTU"/>
+                            <constraint firstAttribute="bottom" secondItem="HWC-KK-LCc" secondAttribute="bottom" constant="1" id="jul-at-twc"/>
+                            <constraint firstAttribute="width" constant="30" id="z84-eh-SLU"/>
+                        </constraints>
+                    </view>
+                </subviews>
+                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+            </view>
+            <constraints>
+                <constraint firstItem="JAH-JZ-YhO" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="2Qe-3O-wWe"/>
+                <constraint firstItem="IOe-Jt-7pw" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="35z-qk-vcF"/>
+                <constraint firstAttribute="trailing" secondItem="zMi-Ng-7B7" secondAttribute="trailing" id="3Oj-ds-S6Z"/>
+                <constraint firstItem="zMi-Ng-7B7" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="8kL-qi-rEu"/>
+                <constraint firstItem="2o3-Oe-F0B" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="Ctx-oB-DNY"/>
+                <constraint firstAttribute="trailing" secondItem="IOe-Jt-7pw" secondAttribute="trailing" id="E7e-qd-U3Y"/>
+                <constraint firstAttribute="trailing" secondItem="2o3-Oe-F0B" secondAttribute="trailing" id="HVs-qU-RWN"/>
+                <constraint firstItem="RZE-UJ-7pa" firstAttribute="centerX" secondItem="JAH-JZ-YhO" secondAttribute="centerX" id="Pet-un-3zX"/>
+                <constraint firstAttribute="trailing" secondItem="JAH-JZ-YhO" secondAttribute="trailing" id="WQh-ef-aEX"/>
+                <constraint firstItem="RZE-UJ-7pa" firstAttribute="centerY" secondItem="JAH-JZ-YhO" secondAttribute="centerY" constant="1" id="Z3P-NB-dWt"/>
+                <constraint firstItem="2o3-Oe-F0B" firstAttribute="top" secondItem="zMi-Ng-7B7" secondAttribute="bottom" id="cNp-7M-bb8"/>
+                <constraint firstItem="zMi-Ng-7B7" firstAttribute="top" secondItem="JAH-JZ-YhO" secondAttribute="bottom" constant="10" id="hIW-iO-9w9"/>
+                <constraint firstItem="JAH-JZ-YhO" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="jNc-8L-Scg"/>
+                <constraint firstItem="JAH-JZ-YhO" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="kI6-Dq-OPU"/>
+                <constraint firstAttribute="trailing" secondItem="JAH-JZ-YhO" secondAttribute="trailing" id="xrC-gP-9hQ"/>
+            </constraints>
+            <size key="customSize" width="100" height="90"/>
+            <variation key="default">
+                <mask key="constraints">
+                    <exclude reference="WQh-ef-aEX"/>
+                    <exclude reference="kI6-Dq-OPU"/>
+                </mask>
+            </variation>
+            <connections>
+                <outlet property="NotificationCount" destination="HWC-KK-LCc" id="gGS-p0-xyl"/>
+                <outlet property="NotificationView" destination="IOe-Jt-7pw" id="7Wi-n5-q3I"/>
+                <outlet property="firstNameLabel" destination="zMi-Ng-7B7" id="TLS-TV-VFh"/>
+                <outlet property="lastNameLabel" destination="2o3-Oe-F0B" id="Kpl-8n-EhO"/>
+                <outlet property="loadingUserImageIndicator" destination="RZE-UJ-7pa" id="wRb-sh-AIn"/>
+                <outlet property="userImage" destination="JAH-JZ-YhO" id="1jx-ug-Wyi"/>
+            </connections>
+            <point key="canvasLocation" x="180" y="167"/>
+        </collectionViewCell>
+    </objects>
+    <resources>
+        <image name="User_Notification_Icon.png" width="25" height="25"/>
+    </resources>
+</document>

@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14E46" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <development version="6000" identifier="xcode"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="KGk-i7-Jjw" customClass="NotificationViewCell" customModule="FantasticHuman" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="100"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="y8F-M9-81k" userLabel="Notification_Image">
+                        <rect key="frame" x="5" y="5" width="90" height="89"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="90" id="uBB-BZ-fLI"/>
+                        </constraints>
+                    </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.80000000000000004" preferredMaxLayoutWidth="0.0" translatesAutoresizingMaskIntoConstraints="NO" id="6pk-gV-3Aj" userLabel="Notification_text">
+                        <rect key="frame" x="105" y="0.0" width="195" height="99"/>
+                        <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="16"/>
+                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Notification_Arrow.png" translatesAutoresizingMaskIntoConstraints="NO" id="g5c-VL-JJS">
+                        <rect key="frame" x="306" y="42" width="9" height="15"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="15" id="Pau-dm-xqp"/>
+                            <constraint firstAttribute="width" constant="9" id="pZo-4G-xsM"/>
+                        </constraints>
+                    </imageView>
+                    <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="L8I-sS-kY0">
+                        <rect key="frame" x="40" y="40" width="15" height="20"/>
+                    </activityIndicatorView>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="cyd-DY-VGc" userLabel="Separator_ImageCiew">
+                        <rect key="frame" x="5" y="98" width="310" height="1"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="1" id="vtp-Jv-sCR"/>
+                        </constraints>
+                    </imageView>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="y8F-M9-81k" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="5" id="0Pm-Lz-rgZ"/>
+                    <constraint firstItem="L8I-sS-kY0" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="40" id="33U-yb-Cyq"/>
+                    <constraint firstItem="L8I-sS-kY0" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="40" id="3QI-ty-hSU"/>
+                    <constraint firstItem="y8F-M9-81k" firstAttribute="trailing" secondItem="L8I-sS-kY0" secondAttribute="trailing" constant="40" id="6ql-Xp-dmy"/>
+                    <constraint firstAttribute="trailing" secondItem="cyd-DY-VGc" secondAttribute="trailing" constant="5" id="8n0-0n-n2d"/>
+                    <constraint firstItem="6pk-gV-3Aj" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="Ba5-2m-eup"/>
+                    <constraint firstAttribute="trailing" secondItem="g5c-VL-JJS" secondAttribute="trailing" constant="5" id="EwI-8y-Sv4"/>
+                    <constraint firstAttribute="bottom" secondItem="cyd-DY-VGc" secondAttribute="bottom" id="GxE-sf-eNc"/>
+                    <constraint firstAttribute="bottom" secondItem="L8I-sS-kY0" secondAttribute="bottom" constant="39" id="Xsb-LS-VOp"/>
+                    <constraint firstItem="cyd-DY-VGc" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="5" id="bWe-zR-NSg"/>
+                    <constraint firstAttribute="centerY" secondItem="g5c-VL-JJS" secondAttribute="centerY" id="fXR-x1-BQq"/>
+                    <constraint firstItem="6pk-gV-3Aj" firstAttribute="leading" secondItem="y8F-M9-81k" secondAttribute="trailing" constant="10" id="ifV-DT-c4f"/>
+                    <constraint firstAttribute="bottom" secondItem="6pk-gV-3Aj" secondAttribute="bottom" id="kEV-F6-UNq"/>
+                    <constraint firstAttribute="trailing" secondItem="6pk-gV-3Aj" secondAttribute="trailing" constant="20" id="kMT-d3-8dH"/>
+                    <constraint firstItem="y8F-M9-81k" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="5" id="vEp-Gd-nur"/>
+                    <constraint firstAttribute="bottom" secondItem="y8F-M9-81k" secondAttribute="bottom" constant="5" id="xEY-Va-mzp"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="loadingActivityIndicator" destination="L8I-sS-kY0" id="6W6-Zj-JnU"/>
+                <outlet property="notificationArrowImageView" destination="g5c-VL-JJS" id="Rjw-wi-ziJ"/>
+                <outlet property="notificationImageView" destination="y8F-M9-81k" id="A5h-EL-KZ7"/>
+                <outlet property="notificationTextLabel" destination="6pk-gV-3Aj" id="0Yc-XZ-hpb"/>
+                <outlet property="separatorImageView" destination="cyd-DY-VGc" id="zG5-AT-uuP"/>
+            </connections>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="Notification_Arrow.png" width="10" height="16"/>
+    </resources>
+</document>

@@ -1,0 +1,63 @@
+var createAll = function() {
+
+	var promises = new Array();
+
+	for (var i = 0; i < 4; i++) {
+
+		var random4Digit = ("" + Math.random()).substring(2, 6);
+
+		var email = "coach_" + random4Digit;
+		var password = "devpass";
+		var firstName = "cof_" + random4Digit;
+		var lastName = "col_" + random4Digit;
+		var coahId = "coi_" + random4Digit;
+
+		var fut = createCoach(email, password, coahId, firstName, lastName);
+
+		var prom = fut.then(function(coach) {
+
+			var uemail = "user_" + random4Digit;
+			var uFirstName = "usf_" + random4Digit;
+			var uLastName = "usl_" + random4Digit;
+
+			return createUser(uemail, password, uFirstName, uLastName, coach);
+
+		});
+
+		promises.push(prom);
+
+	}
+
+	return Parse.Promise.when(promises);
+
+};
+
+var createUser = function(email, password, firstName, lastName, coach) {
+
+	return createGenericUser(email, password, null, firstName, lastName, false, coach);
+
+};
+
+var createCoach = function(email, password, coachId, firstName, lastName) {
+
+	return createGenericUser(email, password, coachId, firstName, lastName, true, null);
+
+};
+
+var createGenericUser = function(email, password, coachId, firstName, lastName, isCoach, coachRef) {
+	var user = new Parse.User();
+	user.set("username", email);
+	user.set("password", password);
+	user.set("email", email);
+	user.set("phone", "+10000000000");
+	user.set("coachId", coachId);
+	user.set("isCoach", isCoach);
+	user.set("phoneVerified", true);
+	user.set("firstName", firstName);
+	user.set("lastName", lastName);
+	user.set("coach", coachRef);
+
+	return user.signUp(null);
+};
+
+exports.createAll = createAll;

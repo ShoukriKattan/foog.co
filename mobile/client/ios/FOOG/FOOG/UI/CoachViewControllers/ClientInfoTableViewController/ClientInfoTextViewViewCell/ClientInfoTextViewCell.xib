@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14D131" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="63" id="KGk-i7-Jjw" customClass="ClientInfoTextViewCell" customModule="FantasticHuman" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="67"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="c5C-tz-nbi" userLabel="SeparatorImage">
+                        <rect key="frame" x="28" y="56" width="319" height="1"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="1" id="ndw-yv-OV7"/>
+                        </constraints>
+                    </imageView>
+                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" showsVerticalScrollIndicator="NO" textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="pLl-Hn-d7u">
+                        <rect key="frame" x="10" y="10" width="355" height="46"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="20"/>
+                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                    </textView>
+                </subviews>
+                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                <constraints>
+                    <constraint firstAttribute="trailingMargin" secondItem="c5C-tz-nbi" secondAttribute="trailing" constant="20" id="2rn-hd-unB"/>
+                    <constraint firstItem="c5C-tz-nbi" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" constant="20" id="GfQ-uf-TZB"/>
+                    <constraint firstAttribute="trailing" secondItem="pLl-Hn-d7u" secondAttribute="trailing" constant="10" id="Nnf-Ml-B2f"/>
+                    <constraint firstAttribute="bottomMargin" secondItem="c5C-tz-nbi" secondAttribute="bottom" constant="1" id="OWF-u3-J2H"/>
+                    <constraint firstItem="pLl-Hn-d7u" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="10" id="UGh-cN-hbm"/>
+                    <constraint firstAttribute="bottom" secondItem="pLl-Hn-d7u" secondAttribute="bottom" constant="10" id="VaO-Ko-dR9"/>
+                    <constraint firstItem="pLl-Hn-d7u" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="10" id="dY9-li-8rv"/>
+                </constraints>
+            </tableViewCellContentView>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+            <connections>
+                <outlet property="separatorImageView" destination="c5C-tz-nbi" id="JTG-iD-RmE"/>
+                <outlet property="textView" destination="pLl-Hn-d7u" id="YKG-9E-hnS"/>
+            </connections>
+            <point key="canvasLocation" x="277.5" y="233.5"/>
+        </tableViewCell>
+    </objects>
+</document>

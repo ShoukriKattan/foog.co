@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14D131" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="MealDetailsViewController" customModule="FantasticHuman" customModuleProvider="target">
+            <connections>
+                <outlet property="actionsToolBar" destination="KNZ-gy-NC3" id="EMz-re-hc0"/>
+                <outlet property="loadingImageIndicator" destination="cib-ny-bdk" id="XYU-JQ-yXh"/>
+                <outlet property="mealImageView" destination="VWs-Ns-hrR" id="qqY-nb-r4D"/>
+                <outlet property="mealInstructionLabel" destination="utg-KT-hu0" id="ix0-BN-C6c"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="416"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="VWs-Ns-hrR">
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="372"/>
+                </imageView>
+                <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="white" translatesAutoresizingMaskIntoConstraints="NO" id="cib-ny-bdk">
+                    <rect key="frame" x="150" y="198" width="20" height="20"/>
+                </activityIndicatorView>
+                <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KNZ-gy-NC3">
+                    <rect key="frame" x="0.0" y="372" width="320" height="44"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="44" id="2LH-17-IX8"/>
+                    </constraints>
+                    <items/>
+                    <color key="barTintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                </toolbar>
+                <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="320" translatesAutoresizingMaskIntoConstraints="NO" id="utg-KT-hu0" userLabel="Meal Instruction Label">
+                    <rect key="frame" x="0.0" y="325" width="320" height="45"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="45" id="RfI-yI-hFo"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="15"/>
+                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+            </subviews>
+            <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstAttribute="trailing" secondItem="VWs-Ns-hrR" secondAttribute="trailing" id="2AK-Uu-DrE"/>
+                <constraint firstItem="KNZ-gy-NC3" firstAttribute="top" secondItem="VWs-Ns-hrR" secondAttribute="bottom" id="2eo-A8-m1E"/>
+                <constraint firstItem="VWs-Ns-hrR" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="3qg-zI-3m8"/>
+                <constraint firstItem="KNZ-gy-NC3" firstAttribute="top" secondItem="utg-KT-hu0" secondAttribute="bottom" constant="2" id="9dd-TH-jqb"/>
+                <constraint firstAttribute="trailing" secondItem="utg-KT-hu0" secondAttribute="trailing" id="H0T-i5-bwg"/>
+                <constraint firstItem="VWs-Ns-hrR" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="ZET-Ge-UcB"/>
+                <constraint firstItem="utg-KT-hu0" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="hZW-nP-FV8"/>
+                <constraint firstAttribute="bottom" secondItem="KNZ-gy-NC3" secondAttribute="bottom" id="plR-2v-ynL"/>
+                <constraint firstItem="KNZ-gy-NC3" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="qye-dd-dBo"/>
+                <constraint firstAttribute="centerX" secondItem="cib-ny-bdk" secondAttribute="centerX" id="sg0-uC-jys"/>
+                <constraint firstAttribute="centerY" secondItem="cib-ny-bdk" secondAttribute="centerY" id="t8d-64-2fp"/>
+                <constraint firstAttribute="trailing" secondItem="KNZ-gy-NC3" secondAttribute="trailing" id="u17-HC-Y9o"/>
+            </constraints>
+            <simulatedStatusBarMetrics key="simulatedStatusBarMetrics" statusBarStyle="lightContent"/>
+            <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" barStyle="black" translucent="NO" prompted="NO"/>
+            <nil key="simulatedBottomBarMetrics"/>
+            <simulatedScreenMetrics key="simulatedDestinationMetrics"/>
+        </view>
+    </objects>
+</document>

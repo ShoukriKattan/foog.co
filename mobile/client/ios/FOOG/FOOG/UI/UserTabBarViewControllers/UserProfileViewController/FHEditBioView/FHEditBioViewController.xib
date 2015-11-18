@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14D131" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="FHEditBioViewController" customModule="FantasticHuman" customModuleProvider="target">
+            <connections>
+                <outlet property="dietTF" destination="7D9-Zb-Mys" id="Jzr-ln-mg6"/>
+                <outlet property="goalTVHeightConstraint" destination="zdh-rM-QC1" id="yPR-1R-hKs"/>
+                <outlet property="goalsTV" destination="Bcf-ZC-LDR" id="k5I-eo-GbS"/>
+                <outlet property="heightTF" destination="IYn-uV-Lag" id="wQa-fH-0eT"/>
+                <outlet property="scrollViewBottomConstraint" destination="5X8-Wz-Z16" id="nqb-F3-fKf"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+                <outlet property="weekStartTF" destination="XMA-jX-yyu" id="PEJ-Ye-HeC"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <scrollView multipleTouchEnabled="YES" contentMode="scaleToFill" keyboardDismissMode="interactive" translatesAutoresizingMaskIntoConstraints="NO" id="ZHJ-kD-ngx">
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
+                    <subviews>
+                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" text="Sunday" placeholder="Week Start" textAlignment="center" minimumFontSize="17" background="TextFieldBackground.png" translatesAutoresizingMaskIntoConstraints="NO" id="XMA-jX-yyu">
+                            <rect key="frame" x="20" y="32" width="280" height="35"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="35" id="9sK-kH-eZG"/>
+                            </constraints>
+                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="18"/>
+                            <textInputTraits key="textInputTraits"/>
+                            <userDefinedRuntimeAttributes>
+                                <userDefinedRuntimeAttribute type="color" keyPath="_placeholderLabel.textColor">
+                                    <color key="value" white="0.59596011510000002" alpha="1" colorSpace="calibratedWhite"/>
+                                </userDefinedRuntimeAttribute>
+                            </userDefinedRuntimeAttributes>
+                            <connections>
+                                <outlet property="delegate" destination="-1" id="NNz-FH-NkB"/>
+                            </connections>
+                        </textField>
+                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" placeholder="Height" textAlignment="center" minimumFontSize="17" background="TextFieldBackground.png" translatesAutoresizingMaskIntoConstraints="NO" id="IYn-uV-Lag">
+                            <rect key="frame" x="20" y="92" width="280" height="35"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="35" id="A0Y-H2-vHv"/>
+                            </constraints>
+                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="18"/>
+                            <textInputTraits key="textInputTraits" autocapitalizationType="words" returnKeyType="next"/>
+                            <userDefinedRuntimeAttributes>
+                                <userDefinedRuntimeAttribute type="color" keyPath="_placeholderLabel.textColor">
+                                    <color key="value" white="0.59596011510000002" alpha="1" colorSpace="calibratedWhite"/>
+                                </userDefinedRuntimeAttribute>
+                            </userDefinedRuntimeAttributes>
+                            <connections>
+                                <outlet property="delegate" destination="-1" id="JTI-yW-rRh"/>
+                            </connections>
+                        </textField>
+                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" placeholder="Diet" textAlignment="center" minimumFontSize="17" background="TextFieldBackground.png" translatesAutoresizingMaskIntoConstraints="NO" id="7D9-Zb-Mys">
+                            <rect key="frame" x="20" y="152" width="280" height="35"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="35" id="gec-Iv-zk4"/>
+                            </constraints>
+                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="18"/>
+                            <textInputTraits key="textInputTraits" autocapitalizationType="words" returnKeyType="next"/>
+                            <userDefinedRuntimeAttributes>
+                                <userDefinedRuntimeAttribute type="color" keyPath="_placeholderLabel.textColor">
+                                    <color key="value" white="0.59596011510000002" alpha="1" colorSpace="calibratedWhite"/>
+                                </userDefinedRuntimeAttribute>
+                            </userDefinedRuntimeAttributes>
+                            <connections>
+                                <outlet property="delegate" destination="-1" id="rWL-8R-ItR"/>
+                            </connections>
+                        </textField>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="TextViewBackground.png" translatesAutoresizingMaskIntoConstraints="NO" id="DTP-CS-kSQ">
+                            <rect key="frame" x="20" y="212" width="280" height="41"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="41" id="L6M-eQ-yc3"/>
+                            </constraints>
+                        </imageView>
+                        <textView multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" keyboardDismissMode="interactive" textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="Bcf-ZC-LDR">
+                            <rect key="frame" x="20" y="212" width="280" height="35"/>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="35" id="zdh-rM-QC1"/>
+                            </constraints>
+                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="18"/>
+                            <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            <connections>
+                                <outlet property="delegate" destination="-1" id="1uX-Yt-QLp"/>
+                            </connections>
+                        </textView>
+                    </subviews>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstItem="Bcf-ZC-LDR" firstAttribute="top" secondItem="7D9-Zb-Mys" secondAttribute="bottom" constant="25" id="16h-0b-3Zk"/>
+                        <constraint firstItem="Bcf-ZC-LDR" firstAttribute="leading" secondItem="ZHJ-kD-ngx" secondAttribute="leading" constant="20" id="7yR-v7-hRd"/>
+                        <constraint firstAttribute="trailing" secondItem="7D9-Zb-Mys" secondAttribute="trailing" constant="20" id="Aj6-3W-Hiu"/>
+                        <constraint firstAttribute="trailing" secondItem="IYn-uV-Lag" secondAttribute="trailing" constant="20" id="C1Z-9Z-Zbr"/>
+                        <constraint firstItem="7D9-Zb-Mys" firstAttribute="leading" secondItem="ZHJ-kD-ngx" secondAttribute="leading" constant="20" id="DZZ-2F-bMu"/>
+                        <constraint firstItem="XMA-jX-yyu" firstAttribute="top" secondItem="ZHJ-kD-ngx" secondAttribute="top" constant="32" id="Gzt-wL-dhG"/>
+                        <constraint firstAttribute="centerX" secondItem="XMA-jX-yyu" secondAttribute="centerX" id="HhJ-CI-eLN"/>
+                        <constraint firstItem="XMA-jX-yyu" firstAttribute="leading" secondItem="ZHJ-kD-ngx" secondAttribute="leading" constant="20" id="IAZ-GY-zUj"/>
+                        <constraint firstItem="7D9-Zb-Mys" firstAttribute="top" secondItem="IYn-uV-Lag" secondAttribute="bottom" constant="25" id="IGY-fI-f7h"/>
+                        <constraint firstAttribute="trailing" secondItem="XMA-jX-yyu" secondAttribute="trailing" constant="20" id="LtN-88-9jf"/>
+                        <constraint firstItem="IYn-uV-Lag" firstAttribute="top" secondItem="XMA-jX-yyu" secondAttribute="bottom" constant="25" id="NOm-ZE-UXF"/>
+                        <constraint firstAttribute="bottom" secondItem="Bcf-ZC-LDR" secondAttribute="bottom" constant="5" id="bf2-L5-lAw"/>
+                        <constraint firstItem="DTP-CS-kSQ" firstAttribute="bottom" secondItem="Bcf-ZC-LDR" secondAttribute="bottom" constant="6" id="eMn-gx-WlE"/>
+                        <constraint firstAttribute="trailing" secondItem="DTP-CS-kSQ" secondAttribute="trailing" constant="20" id="l5S-Qb-YnA"/>
+                        <constraint firstItem="DTP-CS-kSQ" firstAttribute="leading" secondItem="ZHJ-kD-ngx" secondAttribute="leading" constant="20" id="nUI-Hm-bjB"/>
+                        <constraint firstAttribute="trailing" secondItem="Bcf-ZC-LDR" secondAttribute="trailing" constant="20" id="oGf-S8-aeg"/>
+                        <constraint firstItem="IYn-uV-Lag" firstAttribute="leading" secondItem="ZHJ-kD-ngx" secondAttribute="leading" constant="20" id="vbr-62-hLw"/>
+                    </constraints>
+                </scrollView>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstAttribute="bottom" secondItem="ZHJ-kD-ngx" secondAttribute="bottom" id="5X8-Wz-Z16"/>
+                <constraint firstItem="ZHJ-kD-ngx" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="BZh-su-izZ"/>
+                <constraint firstAttribute="trailing" secondItem="ZHJ-kD-ngx" secondAttribute="trailing" id="PmN-Ld-Y8m"/>
+                <constraint firstItem="ZHJ-kD-ngx" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="sy7-RG-IzH"/>
+            </constraints>
+            <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" barStyle="black" translucent="NO" prompted="NO"/>
+            <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="TextFieldBackground.png" width="300" height="35"/>
+        <image name="TextViewBackground.png" width="300" height="50"/>
+    </resources>
+</document>

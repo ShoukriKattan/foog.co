@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14E46" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="MealsFlowTableView" customModule="FOOG" customModuleProvider="target">
+            <connections>
+                <outlet property="activityIndicator" destination="P57-ro-XVw" id="GlK-iE-0Ix"/>
+                <outlet property="containerView" destination="iN0-l3-epB" id="5xe-rf-gKC"/>
+                <outlet property="tableView" destination="uR9-d0-FJb" id="HUY-Mg-tWT"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB">
+            <rect key="frame" x="0.0" y="1" width="225" height="376"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="P57-ro-XVw">
+                    <rect key="frame" x="94" y="170" width="37" height="37"/>
+                </activityIndicatorView>
+                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="32" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="uR9-d0-FJb">
+                    <rect key="frame" x="0.0" y="0.0" width="225" height="376"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <color key="separatorColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <color key="sectionIndexBackgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <connections>
+                        <outlet property="dataSource" destination="-1" id="DDZ-RC-DMB"/>
+                        <outlet property="delegate" destination="-1" id="s10-ne-BnE"/>
+                    </connections>
+                </tableView>
+            </subviews>
+            <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstAttribute="bottom" secondItem="uR9-d0-FJb" secondAttribute="bottom" id="5pI-uT-giM"/>
+                <constraint firstAttribute="centerY" secondItem="P57-ro-XVw" secondAttribute="centerY" id="BDe-tT-Erd"/>
+                <constraint firstItem="uR9-d0-FJb" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="gPe-fe-I1F"/>
+                <constraint firstAttribute="trailing" secondItem="uR9-d0-FJb" secondAttribute="trailing" id="lxa-ii-35a"/>
+                <constraint firstItem="uR9-d0-FJb" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="u9C-Da-gc1"/>
+                <constraint firstAttribute="centerX" secondItem="P57-ro-XVw" secondAttribute="centerX" id="v63-Gi-M93"/>
+            </constraints>
+            <nil key="simulatedStatusBarMetrics"/>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <point key="canvasLocation" x="185.5" y="134"/>
+        </view>
+    </objects>
+</document>

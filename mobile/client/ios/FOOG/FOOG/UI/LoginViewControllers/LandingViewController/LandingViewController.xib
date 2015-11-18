@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14E46" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="LandingViewController" customModule="FOOG" customModuleProvider="target">
+            <connections>
+                <outlet property="backgroundImageView" destination="eek-hW-n2i" id="oDA-Ih-Idf"/>
+                <outlet property="loadingIndicator" destination="wdg-34-2No" id="pl0-pr-8RW"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="landingPage.png" translatesAutoresizingMaskIntoConstraints="NO" id="eek-hW-n2i">
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                </imageView>
+                <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="white" translatesAutoresizingMaskIntoConstraints="NO" id="wdg-34-2No">
+                    <rect key="frame" x="150" y="230" width="20" height="20"/>
+                </activityIndicatorView>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstAttribute="bottom" secondItem="eek-hW-n2i" secondAttribute="bottom" id="28f-s7-CSa"/>
+                <constraint firstAttribute="centerX" secondItem="wdg-34-2No" secondAttribute="centerX" id="3BX-YM-H9x"/>
+                <constraint firstAttribute="centerY" secondItem="wdg-34-2No" secondAttribute="centerY" id="gnK-Nh-dAa"/>
+                <constraint firstAttribute="trailing" secondItem="eek-hW-n2i" secondAttribute="trailing" id="jyk-c1-LtJ"/>
+                <constraint firstItem="eek-hW-n2i" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="kLD-tS-hki"/>
+                <constraint firstItem="eek-hW-n2i" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="uci-Fy-K1a"/>
+            </constraints>
+            <nil key="simulatedTopBarMetrics"/>
+            <nil key="simulatedBottomBarMetrics"/>
+            <simulatedScreenMetrics key="simulatedDestinationMetrics"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="landingPage.png" width="640" height="960"/>
+    </resources>
+</document>

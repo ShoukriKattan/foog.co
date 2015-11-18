@@ -1,0 +1,242 @@
+var utils = require("cloud/utils.js");
+
+var NOTIFICATION_TYPE_NEW_MEAL = "NewMeal";
+var NOTIFICATION_TYPE_COACH_REVIEWED_MEAL = "CoachReviewedMeal";
+var NOTIFICATION_TYPE_COACH_COMMENTED = "CoachCommented";
+var NOTIFICATION_TYPE_USER_COMMENTED = "UserCommented";
+
+
+var NOTIFICATION_TYPE_USER_SUBMITTED_NO_MEALS_REMINDER="UserSubmittedNoMeals";
+var NOTIFICATION_TYPE_COACH_REVIEW_MEALS_REMINDER="CoachReviewMealsReminder";
+
+
+var NOTIFICATION_TYPE_USER_SENT_LINK_REQUEST = "UserSentLinkRequest";
+var NOTIFICATION_TYPE_COACH_ACCEPTED_LINK_REQUEST = "CoachAcceptedLinkRequest";
+var NOTIFICATION_TYPE_COACH_REJECTED_LINK_REQUEST = "CoachRejectedLinkRequest";
+var NOTIFICATION_TYPE_USER_CANCELLED_LINK_REQUEST = "UserCancelledLinkRequest";
+var NOTIFICATION_TYPE_USER_UNLINKED = "UserUnlinked";
+var NOTIFICATION_TYPE_COACH_UNLINKED = "CoachUnlinked";
+
+//Reminder  Pending link request
+var NOTIFICATION_TYPE_COACH_PENDING_LINK_REQUESTS="CoachPendingLinkRequests";
+
+var NOTIFICATION_TYPE_SUMMARY_AVAIALABLE_TO_USER = "SummaryAvailableUser";
+var NOTIFICATION_TYPE_SUMMARY_AVAILABLE_TO_COACH = "SummaryAvailableCoach";
+var NOTIFICATION_TYPE_SUMMARY_REMINDER_END_OF_WEEK = "SummaryReminderEndOfWeek";
+
+var messages = new Array();
+
+messages[NOTIFICATION_TYPE_NEW_MEAL] = {
+	alert : "{firstName} {lastName} submitted a new Meal",
+	title : "New Meal For your Review",
+	message : "{firstName} {lastName} submitted a new Meal"
+};
+
+messages[NOTIFICATION_TYPE_COACH_REVIEWED_MEAL] = {
+	alert : "Coach {firstName} {lastName} reviewed your Meal",
+	title : "Coach reviewed your meal",
+	message : "Coach {firstName} {lastName} reviewed your Meal"
+};
+
+messages[NOTIFICATION_TYPE_COACH_COMMENTED] = {
+	alert : "Coach {firstName} {lastName} commented on your Meal",
+	title : "Comments on meal",
+	message : "Coach {firstName} {lastName} commented on your Meal"
+};
+
+messages[NOTIFICATION_TYPE_USER_COMMENTED] = {
+	alert : "{firstName} {lastName} commented on Meal",
+	title : "Comments on meal",
+	message : "{firstName} {lastName} commented on Meal"
+};
+
+messages[NOTIFICATION_TYPE_USER_SENT_LINK_REQUEST] = {
+	alert : "{firstName} {lastName} has requested to link to you",
+	title : "New Link Request",
+	message : "{firstName} {lastName} has requested to link to you"
+};
+
+messages[NOTIFICATION_TYPE_COACH_ACCEPTED_LINK_REQUEST] = {
+	alert : "Coach {firstName} {lastName} accepted your link request",
+	title : "Link Request Accepted",
+	message : "Coach {firstName} {lastName} accepted your link request"
+};
+
+messages[NOTIFICATION_TYPE_COACH_REJECTED_LINK_REQUEST] = {
+	alert : "",
+	title : "",
+	message : ""
+};
+
+messages[NOTIFICATION_TYPE_USER_CANCELLED_LINK_REQUEST] = {
+	alert : "",
+	title : "",
+	message : ""
+};
+
+messages[NOTIFICATION_TYPE_USER_UNLINKED] = {
+	alert : "",
+	title : "",
+	message : ""
+};
+messages[NOTIFICATION_TYPE_COACH_UNLINKED] = {
+	alert : "",
+	title : "",
+	message : ""
+};
+
+messages[NOTIFICATION_TYPE_SUMMARY_AVAIALABLE_TO_USER] = {
+	alert : "",
+	title : "",
+	message : ""
+};
+
+messages[NOTIFICATION_TYPE_SUMMARY_AVAILABLE_TO_COACH] = {
+	alert : "",
+	title : "",
+	message : ""
+};
+
+messages[NOTIFICATION_TYPE_SUMMARY_REMINDER_END_OF_WEEK] = {
+	alert : "",
+	title : "",
+	message : ""
+};
+
+
+messages[NOTIFICATION_TYPE_USER_SUBMITTED_NO_MEALS_REMINDER] = {
+	alert : "",
+	title : "",
+	message : ""
+};
+
+messages[NOTIFICATION_TYPE_COACH_REVIEW_MEALS_REMINDER] = {
+	alert : "",
+	title : "",
+	message : ""
+};
+
+messages[NOTIFICATION_TYPE_COACH_PENDING_LINK_REQUESTS] = {
+	alert : "",
+	title : "",
+	message : ""
+};
+
+
+getPushData = function(notificationType, dstUser, notificationObjectId) {
+
+	var firstName = dstUser.get('firstName');
+	var lastName = dstUser.get('lastName');
+
+	var formatObject = [{
+		key : "firstName",
+		value : firstName
+	}, {
+		key : "lastName",
+		value : lastName
+	}];
+
+	var alert = utils.formatMsg(messages[notificationType].alert, formatObject);
+	var title = utils.formatMsg(messages[notificationType].title, formatObject);
+	var message = utils.formatMsg(messages[notificationType].message, formatObject);
+
+	return {
+		alert : alert,
+		type : notificationType,
+		objectId : notificationObjectId,
+		badge : 10,
+		title : title,
+		message : message
+
+	};
+};
+
+/**
+ *
+ * @param {Object} targetUser
+ * @param {Object} notificationType
+ * @param {Object} user
+ * @param {Object} coach
+ * @param {Object} targetMeal
+ * @param {Object} targetSummary
+ */
+var sendNotification = function(targetUser, notificationType, user, coach, targetMeal, targetSummary) {
+
+	var Notifications = Parse.Object.extend("Notifications");
+
+	var notification = new Notifications();
+
+	notification.set('user', user);
+	notification.set('coach', coach);
+	notification.set('targetUser', targetUser);
+	notification.set('targetMeal', targetMeal);
+	notification.set('targetSummary', targetSummary);
+	notification.set('notificationType', notificationType);
+
+	return notification.save().then(function(theNotification) {
+
+		// Load the user, load the coach, format messages, then send the notification.
+
+		var toRetrieve = user;
+
+		if (targetUser == user) {
+			toRetrieve = coach;
+		}
+
+		var query = new Parse.Query(Parse.User);
+
+		return query.get(toRetrieve.id).then(function(fullUser) {
+
+			var pushData = getPushData(notificationType, fullUser, notification.id);
+
+			return sendPush(targetUser, pushData);
+
+		});
+
+	});
+
+};
+
+var sendPush = function(user, pushData) {
+
+	var pushQuery = pushQueryForUser(user);
+
+	//TODO: If we need scheduling timezone stuff
+	//TODO: Do you need a reference to the modified object ...
+	//TODO : I can pass a dictionary of shit
+
+	//var pushTime = new Date();
+	//pushTime.setTime(pushTime.getTime()+(30*1000));
+
+	return Parse.Push.send({
+		where : pushQuery,
+		//push_time: pushTime,
+		data : pushData
+	});
+
+};
+
+var pushQueryForUser = function(userRef) {
+
+	var pushQuery = new Parse.Query(Parse.Installation);
+	pushQuery.equalTo("user", userRef);
+
+	return pushQuery;
+
+};
+
+exports.NOTIFICATION_TYPE_NEW_MEAL = NOTIFICATION_TYPE_NEW_MEAL;
+exports.NOTIFICATION_TYPE_COACH_REVIEWED_MEAL = NOTIFICATION_TYPE_COACH_REVIEWED_MEAL;
+exports.NOTIFICATION_TYPE_COACH_COMMENTED = NOTIFICATION_TYPE_COACH_COMMENTED;
+exports.NOTIFICATION_TYPE_USER_COMMENTED = NOTIFICATION_TYPE_USER_COMMENTED;
+exports.NOTIFICATION_TYPE_USER_SENT_LINK_REQUEST = NOTIFICATION_TYPE_USER_SENT_LINK_REQUEST;
+exports.NOTIFICATION_TYPE_COACH_ACCEPTED_LINK_REQUEST = NOTIFICATION_TYPE_COACH_ACCEPTED_LINK_REQUEST;
+exports.NOTIFICATION_TYPE_COACH_REJECTED_LINK_REQUEST = NOTIFICATION_TYPE_COACH_REJECTED_LINK_REQUEST;
+exports.NOTIFICATION_TYPE_USER_CANCELLED_LINK_REQUEST = NOTIFICATION_TYPE_USER_CANCELLED_LINK_REQUEST;
+exports.NOTIFICATION_TYPE_USER_UNLINKED = NOTIFICATION_TYPE_USER_UNLINKED;
+exports.NOTIFICATION_TYPE_COACH_UNLINKED = NOTIFICATION_TYPE_COACH_UNLINKED;
+exports.NOTIFICATION_TYPE_SUMMARY_AVAIALABLE_TO_USER = NOTIFICATION_TYPE_SUMMARY_AVAIALABLE_TO_USER;
+exports.NOTIFICATION_TYPE_SUMMARY_AVAILABLE_TO_COACH = NOTIFICATION_TYPE_SUMMARY_AVAILABLE_TO_COACH;
+exports.NOTIFICATION_TYPE_SUMMARY_REMINDER_END_OF_WEEK = NOTIFICATION_TYPE_SUMMARY_REMINDER_END_OF_WEEK;
+exports.sendNotification=sendNotification;
+

@@ -1,0 +1,966 @@
+var twilio = require("twilio");
+var _ = require('underscore.js');
+
+
+var NOTIFICATIONS_DELTA_SECONDS=20;
+
+twilio.initialize("AC2b2e38289a4d2b9cc7852e706ad05dfb", "e88e51a8d6acb7487bc4b22b8bfb324b");
+
+var weekday = new Array(7);
+weekday[0] = "Sunday";
+weekday[1] = "Monday";
+weekday[2] = "Tuesday";
+weekday[3] = "Wednesday";
+weekday[4] = "Thursday";
+weekday[5] = "Friday";
+weekday[6] = "Saturday";
+
+var initializeSummaryStructures = function(beginDate) {
+
+	var dates = new Array();
+	var groupedByDay = new Array();
+
+	// take start date and add one day
+
+	// fill the array by walking through the dates ...
+	// dates array will also hold dates in that order
+	// then setup what you need.
+	//groupedByDay[day]={
+	//dayOfWeek: day name (monday,tuesday,etc..) or day index.
+	//meals: []  objects.
+	//numberOfMeals : or we can do meals.length
+
+	for (var daysToAdd = 0; daysToAdd < 7; daysToAdd++) {
+
+		var theDate = new Date();
+		theDate.setTime(beginDate.getTime() + daysToMillis(daysToAdd));
+
+		var df = theDate.getDate() + "-" + (theDate.getMonth() + 1) + "-" + theDate.getFullYear();
+
+		dates.push({
+			label : df,
+			day : theDate.getDay()
+		});
+		groupedByDay[df] = new Array();
+	}
+
+	return {
+		dates : dates,
+		groupedByDay : groupedByDay
+	};
+
+};
+
+var groupMeals = function(mealsPerQueryWeek, beginDate) {
+
+	var holdingDS = initializeSummaryStructures(beginDate);
+
+	var dates = holdingDS.dates;
+	var groupedByDay = holdingDS.groupedByDay;
+
+	for (var i = 0; i < mealsPerQueryWeek.length; i++) {// All Query items ... which include multiple items per day
+
+		var meal = mealsPerQueryWeek[i];
+
+		console.log("Meal is " + JSON.stringify(meal));
+
+		var createdAt = meal.get("appCreatedAt");
+
+		var dateFormatted = createdAt.getDate() + "-" + (createdAt.getMonth() + 1) + "-" + createdAt.getFullYear();
+
+		var dayOfWeek = createdAt.getDay();
+
+		if (!groupedByDay[dateFormatted]) {
+			//Should be ERROR HERE
+			console.error("Group By Day Not Found " + dateFormatted);
+		}
+
+		var itemMarkers = meal.get("itemMarkers");
+
+		console.log("Pushing meal " + dateFormatted + " meal created At : " + createdAt);
+
+		groupedByDay[dateFormatted].push({
+			createdAt : createdAt,
+			itemMarkers : itemMarkers
+		});
+
+	}// end of loop on all items in the query mealsPerQueryWeek
+
+	return {
+		dates : dates,
+		groupedByDay : groupedByDay
+	};
+
+};
+
+var calculateAvgEfficiency = function(efficiencyDataWeekly) {
+
+	var sumOf = 0;
+
+	for (var j = 0; j < efficiencyDataWeekly.length; j++) {
+
+		sumOf += efficiencyDataWeekly[j];
+
+	}
+
+	var avgEfficiency = sumOf / efficiencyDataWeekly.length;
+
+	return avgEfficiency;
+
+};
+
+var calculateWeekSummary = function(mealsPerQueryWeek, beginDate) {
+
+	var efficiencyDataWeekly = new Array();
+
+	// These are total checks and crosses per fucking week...
+	var noChecksPerWeek = 0;
+	var noCrossesPerWeek = 0;
+	var noMealsPerWeek = 0;
+
+	var maximumMealsPerDay = 0;
+	var maximumMealsPerDayIndex = 0;
+
+	var holdingDS = groupMeals(mealsPerQueryWeek, beginDate);
+
+	var dates = holdingDS.dates;
+	var groupedByDay = holdingDS.groupedByDay;
+
+	// For every day :
+	for (var i = 0; i < dates.length; i++) {
+
+		mealsPerDay = groupedByDay[dates[i].label];
+
+		if (!mealsPerDay) {
+			mealsPerDay = [];
+		}
+
+		console.log("Meals Per Day : " + JSON.stringify(mealsPerDay));
+
+		var noMealsPerDay = mealsPerDay.length;
+
+		noMealsPerWeek += noMealsPerDay;
+
+		var checksPerDay = 0;
+		var crossesPerDay = 0;
+		var efficiencyPerDay = 0;
+
+		if (noMealsPerDay > maximumMealsPerDay) {
+			maximumMealsPerDay = noMealsPerDay;
+			maximumMealsPerDayIndex = i;
+		}
+
+		// For every meal in that day ...
+		for (var j = 0; j < mealsPerDay.length; j++) {
+
+			// For every day , add all meals per day...
+			var dayMeal = mealsPerDay[j];
+
+			var itemMarkers = dayMeal.itemMarkers;
+
+			if (!itemMarkers) {
+				itemMarkers = [];
+			}
+
+			for (var markerIndex = 0; markerIndex < itemMarkers.length; markerIndex++) {
+
+				var marker = itemMarkers[markerIndex];
+
+				var checkOrCross = marker[0];
+
+				if (checkOrCross == "Check") {
+					noChecksPerWeek++;
+					checksPerDay++;
+				} else if (checkOrCross == "Cross") {
+					noCrossesPerWeek++;
+					crossesPerDay++;
+				} else {
+					console.error("Fuck " + checkOrCross);
+				}
+
+			} // end of for loop ... read all items markers
+
+		}// end of for loop ,... mealsPerDay.length
+
+		var noMealsFactor = 0;
+
+		if (noMealsPerDay > 3) {
+			noMealsFactor = 50;
+		} else if (noMealsPerDay > 0) {
+			noMealsFactor = 30;
+		} else {
+			noMealsFactor = 0;
+		}
+
+		var checksFactor = Math.round(checksPerDay / (checksPerDay + crossesPerDay) * 50);
+
+		if (!checksFactor) {
+			checksFactor = 0;
+		}
+
+		var efficiencyPerDay = noMealsFactor + checksFactor;
+
+		efficiencyDataWeekly[i] = efficiencyPerDay;
+
+		// Calculate efficiency then
+
+		console.log("Meals Per Day Summary : " + JSON.stringify(groupedByDay[dates[i].label]));
+
+	}// end of dates.length loop
+
+	//NOW :
+
+	var peakDay = weekday[dates[maximumMealsPerDayIndex].day];
+
+	var avgEfficiency = calculateAvgEfficiency(efficiencyDataWeekly);
+
+	return {
+		efficiencyDataWeekly : efficiencyDataWeekly,
+		avgEfficiency : avgEfficiency,
+		peakDay : peakDay,
+		noChecksPerWeek : noChecksPerWeek,
+		noCrossesPerWeek : noCrossesPerWeek,
+		noMealsPerWeek : noMealsPerWeek
+	};
+
+};
+
+var populateThisWeekSummaryCard = function(results, mealsForWeek, userPointer, coachPointer, beginDate) {
+
+	thisWeekSummaryCard = results[0];
+
+	var currentWeek = thisWeekSummaryCard.get('weekNumber');
+
+	// Set all other parameters.
+
+	var summaryData = calculateWeekSummary(mealsForWeek, beginDate);
+
+	thisWeekSummaryCard.set("efficiency", summaryData.avgEfficiency);
+	thisWeekSummaryCard.set("checks", summaryData.noChecksPerWeek);
+	thisWeekSummaryCard.set("crosses", summaryData.noCrossesPerWeek);
+	thisWeekSummaryCard.set("meals", summaryData.noMealsPerWeek);
+	thisWeekSummaryCard.set("peakDay", summaryData.peakDay);
+	// thisWeekSummaryCard.set("weekNumber", ); Week Label already set
+	thisWeekSummaryCard.set("efficiencyDataWeek", summaryData.efficiencyDataWeekly);
+	thisWeekSummaryCard.set("summaryCreatedAt", new Date());
+	thisWeekSummaryCard.set("user", userPointer);
+	thisWeekSummaryCard.set("coach", coachPointer);
+
+	// Monthly Efficiency Data :
+	var efficiencyDataMonth = [];
+
+	// Summaries are ordered descending , and limited to 4.
+
+	for (var jj = results.length - 1; jj >= 0; jj--) {
+
+		var weekSum = results[jj];
+
+		var weekNum = weekSum.get('weekNumber');
+		var weekSumSum = weekSum.get('efficiencyDataWeek');
+
+		var weekName = "Week " + weekNum;
+
+		efficiencyDataMonth.push({
+			Data : weekSumSum,
+			weekName : weekName
+		});
+	}
+
+	thisWeekSummaryCard.set("efficiencyDataMonth", efficiencyDataMonth);
+
+	return thisWeekSummaryCard;
+
+};
+
+var populateNextWeekSummaryCard = function(weekNumber, userPointer, coachPointer) {
+
+	var SummaryCard = Parse.Object.extend("SummaryCard");
+	var nextWeekSummaryCard = new SummaryCard();
+	nextWeekSummaryCard.set("weekNumber", weekNumber);
+	// Summary created At should be left null.
+	nextWeekSummaryCard.set("user", userPointer);
+	nextWeekSummaryCard.set("coach", coachPointer);
+
+	return nextWeekSummaryCard;
+
+};
+
+var resetHours = function(theDate) {
+
+	theDate.setHours(0, 0, 0, 0);
+
+	return theDate;
+
+};
+
+var daysToMillis = function(days) {
+
+	return days * 24 * 60 * 60 * 1000;
+};
+
+//Confirm phone Number
+Parse.Cloud.define("confirmPhoneNumber", function(request, response) {
+
+	var random4Digit = ("" + Math.random()).substring(2, 6);
+
+	var msg = "Your verification code is " + random4Digit;
+
+	var dUser = request.params.duser;
+	var cellNumber = request.params.number;
+
+	var User = Parse.Object.extend("_User");
+	var query = new Parse.Query(User);
+
+	query.get(dUser, {
+		success : function(userOb) {// Query success
+
+			// Now save the random 4 digit
+			userOb.set("phone", cellNumber);
+			userOb.set("verificationCode", random4Digit);
+			userOb.save();
+
+			twilio.sendSMS({
+				From : "+15005550006",
+				To : cellNumber,
+				Body : msg
+			}, {
+				success : function(httpResponse) {
+					console.log(httpResponse);
+					response.success("success");
+				},
+				error : function(httpResponse) {
+					console.error(httpResponse);
+					response.error("smsFailed");
+				}
+			});
+			// send of send SMS
+
+		},
+		error : function(object, error) {// error with Query to get a User
+			// error is a Parse.Error with an error code and message.
+			console.error("Query failed " + JSON.stringify(error));
+			response.error("unableToLoadUser");
+		}
+	});
+	// end of query.get
+
+});
+//confirmPhoneNumber
+
+// Validate Verification Code
+Parse.Cloud.define("validateVerificationCode", function(request, response) {
+
+	var dUser = request.params.duser;
+	var digits = request.params.digits;
+
+	var User = Parse.Object.extend("_User");
+	var query = new Parse.Query(User);
+
+	query.get(dUser, {
+
+		success : function(userOb) {
+
+			var savedCode = userOb.get("verificationCode");
+
+			if (savedCode == digits) {
+
+				userOb.set("phoneVerified", true);
+				userOb.save();
+
+				response.success("verified");
+
+			} else {
+
+				response.error("confirmationCodeNotMatching");
+
+			}
+
+		},
+		error : function(object, error) {
+
+			console.error("Query failed " + JSON.stringify(error));
+			response.error("unableToLoadUser");
+
+		}
+	});
+	// end query.get
+
+});
+// End of validateVerificationCode
+
+/*
+ TODO: Who creates initial Summary Card and when ???????
+
+ */
+var saveUserMealSummary = function(coachPointer, userPointer, beginDate, endDate, profileBeginDate, beginWeekDay) {
+
+	var userId = JSON.stringify(userPointer);
+	var coachId = JSON.stringify(coachPointer);
+
+	console.log("Processing summary for [" + userId + "] with coach [" + coachId + "] Dates between: [" + beginDate + "] and [" + endDate + "] Begin Week Day [" + beginWeekDay + "] Profile Begin Date [" + profileBeginDate + "]");
+
+	// All dates here have to be reset - hours minutes seconds millis to 0 0 0 so we are only looking at days . not hours
+	profileBeginDate = resetHours(new Date(profileBeginDate));
+	beginDate = resetHours(new Date(beginDate));
+	endDate = resetHours(new Date(endDate));
+
+	// Look at Profile Begin date, which day it was ...
+	// If its equals, then it's best scenario
+	// If Begin date day is after , good scenario
+	// If before , we need to advance a week.
+	var profileBeginDay = profileBeginDate.getDay();
+
+	// we need to advance the clock from profile start date until we get to the Week date :
+	// Example  1 :  Start date = 0 , week start date =1 ... advance by 1 day
+	// Example 2 : start date = 1 , week start date = 1 .. great.
+	// Example 3 : start date = 3 , week start date = 1 ... advance by 5 days
+
+	var diffInDays = (7 + (beginWeekDay - profileBeginDay)) % 7;
+
+	var week1StartDate = new Date(profileBeginDate.getTime() + daysToMillis(diffInDays));
+
+	var userWeekNumber = Math.floor((Math.abs(beginDate.getTime() - week1StartDate.getTime())) / daysToMillis(7)) + 1;
+
+	console.log("Processing summary for [" + userId + "] with coach [" + coachId + "] Dates between: [" + beginDate + "] and [" + endDate + "] Week1 Start Date is [" + week1StartDate + "] Begin Week Day [" + beginWeekDay + "] Profile Begin Date [" + profileBeginDate + "] Week Number [" + userWeekNumber + "]");
+
+	//Query meals, meals need to be UNLOCKED, if Locked, them Summary has already run ... we should not produce a new summary
+	var query = new Parse.Query("Meal");
+	query.greaterThanOrEqualTo("appCreatedAt", beginDate);
+	query.lessThan("appCreatedAt", endDate);
+	query.equalTo("owner", userPointer);
+	// Summary created At should be null;
+	query.doesNotExist("summaryCreatedAt");
+	query.equalTo("coach", coachPointer);
+	query.ascending("appCreatedAt");
+
+	// We have to query for the latest summary card
+	var SummaryCard = Parse.Object.extend("SummaryCard");
+	var summaryQuery = new Parse.Query(SummaryCard);
+	summaryQuery.equalTo("user", userPointer);
+	summaryQuery.equalTo("coach", coachPointer);
+	// We can limit this query to 4 results... since 4 is all we need to construct a month's summary
+	summaryQuery.limit(4);
+	summaryQuery.descending("weekNumber");
+	// we don't filter by locked unlocked to get everything.. We need everything
+
+	var mealsForWeek = null;
+	var summaryCreatedAtDate = null;
+
+	return query.find().then(function(mealsPerQueryWeek) {
+
+		console.log("Meals Per Week for user " + userId + " coach " + coachId + " number of meals : " + mealsPerQueryWeek.length);
+
+		mealsForWeek = mealsPerQueryWeek;
+		//Load the summary Cards for this dude
+		return summaryQuery.find();
+
+	}).then(function(results) {
+
+		console.log("Finding all Summary Cards " + results.length);
+
+		if (results.length == 0) {
+			// We should not be here... Since this means no Initial summary card has been created when a user has been created.. FAIL this user.
+			console.error("Saving next summary for " + userId + " with coach " + coachId + " Dates between: [" + beginDate + "] and [" + endDate + "] FAILED !!!.. Unable to find summary card ");
+
+			return Parse.Promise.error("Data Error : No initial summary card created for " + userId + " with coach " + coachId + " Dates between: [" + beginDate + "] and [" + endDate + "] FAILED !!!");
+		}
+
+		var thisWeekCard = results[0];
+
+		var cardWeekNum = thisWeekCard.get('weekNumber');
+
+		//TODO: We are likely to end up here is a user was processed before .... .... .... Should be Skipped..
+		if (cardWeekNum != userWeekNumber) {
+
+			return Parse.Promise.error("Data Error : Card Week Number does not match user Week Number " + userId + " with coach " + coachId + " Dates between: [" + beginDate + "] and [" + endDate + "] CardWeekNumber[" + cardWeekNum + "] UserWeekNumber [" + userWeekNumber + "]");
+		}
+
+		var isProcessedBefore = thisWeekCard.get('summaryCreatedAt');
+
+		if (isProcessedBefore) {
+
+			return Parse.Promise.error("Data Error : Summary has been processed before " + userId + " with coach " + coachId + " Dates between: [" + beginDate + "] and [" + endDate + "] FAILED !!!");
+		}
+
+		var thisWeekSummaryCard = populateThisWeekSummaryCard(results, mealsForWeek, userPointer, coachPointer, beginDate);
+
+		// Save the summary
+		return thisWeekSummaryCard.save();
+
+	}).then(function(savedThisWeekSummaryCard) {
+
+		var weekNumber = savedThisWeekSummaryCard.get('weekNumber') + 1;
+
+		summaryCreatedAtDate = savedThisWeekSummaryCard.get('summaryCreatedAt');
+
+		var nextWeekSummaryCard = populateNextWeekSummaryCard(weekNumber, userPointer, coachPointer);
+
+		return nextWeekSummaryCard.save();
+
+	}).then(function(nextWeekSummaryCard) {
+
+		var promises = [];
+
+		_.each(mealsForWeek, function(meal) {
+
+			meal.set("summaryCreatedAt", summaryCreatedAtDate);
+
+			promises.push(meal.save());
+
+		});
+
+		return Parse.Promise.when(promises);
+
+	});
+
+	//TODO: Send Push notifications here...
+
+};
+
+var processUsersSummary = function() {
+
+	// Today is end  day ..
+	// Note that this date is in UTC ... ... We are 7 hours diff.
+	var d = new Date();
+
+	// Start day is today
+	//  var startDate = (d.getDay() + 1)%7;
+	var startDate = d.getDay();
+
+	// convert to a start date string
+	var weekStartDay = weekday[startDate];
+
+	console.log("Processing items - beginning of week is :  " + weekStartDay);
+
+	var todayMidnight = resetHours(d);
+
+	// last week midnight
+
+	// Subtract 7 days from today ...
+	var lastWeekmidnight = new Date();
+	lastWeekmidnight.setTime(todayMidnight.getTime() - daysToMillis(7));
+
+	var ClientInfo = Parse.Object.extend("ClientInfo");
+	var query = new Parse.Query(ClientInfo);
+
+	query.equalTo("weekStartDay", weekStartDay);
+
+	// What if these guys already have their cards processed.
+
+	//TODO: once you have 100 users consider pagination maybe ???
+
+	return query.find().then(function(results) {
+
+		console.log("Results length " + results.length);
+
+		var promises = [];
+
+		_.each(results, function(result) {
+
+			var cInfo = result;
+
+			var profileBeginDate = cInfo.createdAt;
+			var beginWeekDay = startDate;
+			var coachRef = cInfo.get('coach');
+			var userRef = cInfo.get('user');
+
+			var CoachUserLink = Parse.Object.extend("CoachUserLink");
+			var coachUserQuery = new Parse.Query(CoachUserLink);
+
+			coachUserQuery.equalTo("user", userRef);
+			coachUserQuery.equalTo("coach", coachRef);
+			coachUserQuery.doesNotExist("terminatedAt");
+			coachUserQuery.doesNotExist("rejectedAt");
+			coachUserQuery.exists("linkedAt");
+
+			var promise = coachUserQuery.find().then(function(coachUserLinks) {
+
+				console.log("References coach: " + JSON.stringify(coachRef) + " user Ref :" + JSON.stringify(userRef) + " Length " + coachUserLinks.length);
+
+				if (coachUserLinks.length == 1) {
+					//Make sure that user and coach are still linked ...
+
+					console.log("Today " + todayMidnight + " Last week " + lastWeekmidnight);
+					return saveUserMealSummary(coachRef, userRef, lastWeekmidnight, todayMidnight, profileBeginDate, beginWeekDay);
+
+				} else if (coachUserLinks.length == 0) {
+					console.log("User linked to Coach no longer active- Skipping : Coach:" + JSON.stringify(coachRef) + "User:" + JSON.stringify(userRef));
+					return Parse.Promise.as("No Active user link - Skipping");
+				} else {
+					//ERROR here...
+					console.error("User linked to Coach DATA ISSUE : Coach:" + JSON.stringify(coachRef) + "User:" + JSON.stringify(userRef));
+					// Return a failed promise
+					return Parse.Promise.error("Data Error : Multiple active user coach links found for " + userId + " with coach " + coachId + " Dates between: [" + beginDate + "] and [" + endDate + "] FAILED !!!");
+				}
+
+			});
+
+			promises.push(promise);
+
+		});
+		//end of for each
+
+		// Return a new promise that is resolved when all of the others are finished.
+		return Parse.Promise.when(promises);
+	});
+
+};
+
+/**
+ * An important design question is when reminders should be sent...
+ * We should either process reminders once a day... or have a table, that whenever a reminder is sent, we shouldnt send another one ... done deal..
+ *
+ */
+var processReminders = function() {
+
+	// For Linking ... createdAt but no linkedAt means no linking has happened yet ...
+	//TODO: If a new user is created, are we guaranteed to link .. Can we be stuck on a screen prior to linking ????
+
+};
+
+//Test Data : {"coachId":"tshO1U2vua","userId":"vXui2W8A7D","beginDate":"2015-05-31T00:00:00.000Z","endDate":"2015-06-07T00:00:00.000Z","profileBeginDate":"2015-05-31T00:00:00.000Z","beginWeekDay":"0"}
+//Begin load meals cloud function
+// Need to test scenario where week 0
+// Need to test scenario where in Week 0 there are 0 meals.
+//TODO: Need a trigger ... On Save of new user .. create Summary Card 1
+Parse.Cloud.define("runUserSummary", function(request, response) {
+
+	var coachId = request.params.coachId;
+	var userId = request.params.userId;
+
+	var beginDate = request.params.beginDate;
+	var endDate = request.params.endDate;
+	var profileBeginDate = request.params.profileBeginDate;
+	var beginWeekDay = request.params.beginWeekDay;
+
+	var userPointer = {
+		__type : 'Pointer',
+		className : '_User',
+		objectId : userId
+	};
+
+	var coachPointer = {
+		__type : 'Pointer',
+		className : '_User',
+		objectId : coachId
+	};
+
+	var ret = saveUserMealSummary(coachPointer, userPointer, beginDate, endDate, profileBeginDate, beginWeekDay);
+
+	ret.then(function() {
+		response.success("Summary Run Successful");
+	}, function(error) {
+		response.error("Error running summary " + JSON.stringify(error));
+	});
+
+});
+// end of cloud function Load Melas
+
+Parse.Cloud.define("runUsersSummary", function(request, response) {
+
+	processUsersSummary().then(function() {
+		response.success("Summary Run Successfully");
+	}, function(error) {
+		response.error("Error Running Summary " + JSON.stringify(error));
+	});
+
+});
+// end of cloud function runSummary
+
+// Weekly Summary Cron Job
+Parse.Cloud.job("weeklySummary", function(request, status) {
+
+	// This runs past midnight ... every night ...
+	// if this runs midnight ... then it needs to process day before ... or Start day is Today ...
+
+	// End of week = Start of week -1
+	// Start of week = end + 1
+
+	// This job wakes up daily, checks day of week
+
+	// Loads all users whose end of week day is set to be same as today
+	// For each of them, labels the weeks , and creates end of week summary
+
+	// Set up to modify user data
+	Parse.Cloud.useMasterKey();
+
+	processUsersSummary().then(function() {
+		status.success("Summary Run Successfully");
+	}, function(error) {
+		status.error("Error Running Summary " + JSON.stringify(error));
+	});
+
+});
+// end of weekly summary job
+
+// Make sure that CoachID is unique.
+Parse.Cloud.beforeSave(Parse.User, function(request, response) {
+
+//TODO: Revise this code...
+	// Hold CoachID
+	
+	
+	var coachId = request.object.get("coachId");
+	
+	console.log("Coach ID coming back "+coachId);
+	
+	var objectId = request.object.id;
+
+	// Make sure this call is to register new Coach.
+	if (coachId && !objectId) {
+		// Make sure that CoachID is not already taken.
+		var query = new Parse.Query("User");
+		query.equalTo("coachId", coachId);
+		query.first({
+			success : function(object) {
+				if (object) {
+					response.error("CoachIdIsTaken");
+				} else {
+					response.success();
+				}
+			},
+			error : function(error) {
+				response.error("Could not validate uniqueness CoachID");
+			}
+		});
+	} else {
+		response.success();
+	}
+});
+
+// Find Coach User to link with using provided CoachID parameter.
+Parse.Cloud.beforeSave("CoachUserLink", function(request, response) {
+
+//TODO: Revise this code. 
+	// Hold CoachID
+	var coachId = request.object.get("coachId");
+
+	if (!coachId) {
+		response.success();
+		return;
+	}
+//TODO: Add Coach to User Table.
+	// Find Coach User object with provided CoachID.
+	var query = new Parse.Query(Parse.User);
+	query.equalTo("coachId", coachId);
+	query.first({
+		success : function(coach) {
+			if (coach) {
+				// Replace CoachID within CoachUserLink with Coach User object.
+				request.object.unset("coachId");
+				request.object.set("coach", coach);
+				response.success();
+			} else {
+				response.error("CoachNotFound");
+			}
+		},
+		error : function(error) {
+			response.error("QueryError");
+		}
+	});
+
+});
+
+/**
+ * Notify user after CoachUserLink is updated ..
+ */
+Parse.Cloud.afterSave("CoachUserLink", function(request) {
+
+	//Validate if this is a new user link and not an update...
+
+	var coachUserLink = request.object;
+
+	var linkedAt = coachUserLink.get('linkedAt');
+	var rejectedAt = coachUserLink.get("rejectedAt");
+	var cancelledAt = coachUserLink.get("cancelledAt");
+	var terminatedAt = coachUserLink.get("terminatedAt");
+	var terminatedBy = coachUserLink.get("terminatedBy");
+	var coach = coachUserLink.get("coach");
+	var user = coachUserLink.get("user");
+
+	// User and Coach need both be set
+	if (user && coach) {
+
+		if (linkedAt) {
+
+			if (terminatedAt) {
+				// notice of termination
+
+				// Check terminated by ...
+				// If terminated by Coach
+				//Notify user
+				// If terminated by User
+				//Notify Coach
+
+			} else {
+				// Coach accepted link
+				// User needs to be notified
+				
+				//TODO : Get User Object, update Coach Reference, and save.
+				
+				
+				sendPush(user,"Coach Accetped your linking request");
+				return;
+
+			}
+
+		} else if (rejectedAt) {
+
+			// Coach rejected linking request ... Oh no !
+			// User needs to be notified
+
+		} else if (cancelledAt) {
+			// User got bored of waiting and decided to cancel.
+			// Coach needs to be notified
+
+		} else {
+			// if not linked nor rejected, this is a new request.
+			// Coach needs to be notified
+			
+			sendPush(coach,"User is requesting to Link with you ...");
+			return ;
+
+		}
+
+	} else {
+
+		console.error("Coach user link added but no user and coach ");
+	}
+
+});
+
+var withinSeconds = function(baseDate, compareDate, nSeconds) {
+
+	var baseTime = baseDate.getTime();
+	var compareTime = compareDate.getTime();
+
+	return Math.abs(baseTime - compareTime) <= nSeconds * 1000;
+
+};
+
+var pushQueryForUser = function(userRef) {
+
+	var pushQuery = new Parse.Query(Parse.Installation);
+	pushQuery.equalTo("user", userRef);
+
+	return pushQuery;
+
+};
+
+/**
+ * Send push after meal save..
+ */
+Parse.Cloud.afterSave("Meal", function(request) {
+
+	var meal = request.object;
+
+	var mealCreatedAt = meal.get("appCreatedAt");
+
+	var coachReviewedAt = meal.get("coachReviewedAt");
+	var userReviewedAt = meal.get("userReviewedAt");
+
+	var coachCommentedAt = meal.get("coachCommentedAt");
+	var userCommentedAt = meal.get("userCommentedAt");
+
+	var owner = meal.get("owner");
+	var coach = meal.get("coach");
+
+	var imageOriginal = meal.get("imageOriginal");
+
+	console.log(JSON.stringify(imageOriginal) + " " + JSON.stringify(meal));
+
+	console.log("Before Checks");
+	if (owner && coach) {
+	console.log("In owner and Coach");
+		var today = new Date();
+
+		// If within a minute range..
+		if (coachReviewedAt && withinSeconds(today, coachReviewedAt, NOTIFICATIONS_DELTA_SECONDS)) {
+
+			// This should be a notification ... that coach has reviewed ..
+			//Check if we already have a notification for this meal.. If there is Skip this one ...
+			// Check if notification date is older than yyyy ... send another notification...
+			
+			sendPush(owner,"Coach Reviewed your meal");
+			
+			return;
+		}
+
+		console.log("In owner and Coach - Meal Created At check ");
+		if (mealCreatedAt && withinSeconds(today, mealCreatedAt, NOTIFICATIONS_DELTA_SECONDS) && imageOriginal) {
+			// Check if we already notified for this meal.. if we did then Skip...
+			console.log("In here");
+			sendPush(coach, "User uploaded a new meal !");
+			
+			return ;
+		}
+		
+		if(coachCommentedAt && withinSeconds(today,coachCommentedAt,NOTIFICATIONS_DELTA_SECONDS)){
+			
+			sendPush(owner,"Coach Commented");
+			return ;
+		}
+		
+		if(userCommentedAt && withinSeconds(today,userCommentedAt,NOTIFICATIONS_DELTA_SECONDS)){
+			
+			sendPush(coach, "User commented on meal");
+			return;
+		}
+		
+		
+
+	} else {
+		// Ignore
+	}
+
+});
+
+
+
+var sendPush = function(user, alertInfo,type,objectId) {
+	
+	if(!type){
+		type="default";
+	}
+	
+	if(!objectId){
+		objectId="";
+	}
+
+	console.log("Before query");
+
+	var pushCoachQuery = pushQueryForUser(user);
+
+	//TODO: If we need scheduling timezone stuff
+	//TODO: Do you need a reference to the modified object ...
+	//TODO : I can pass a dictionary of shit
+	console.log("Before push");
+	
+	Parse.Push.send({
+		where : pushCoachQuery,
+		data : {			
+			alert : alertInfo,
+			type:type,
+			objectId:objectId
+
+		}
+	}, {
+		success : function() {
+			// Push was successful
+			console.log("Yay.. Done Push");
+		},
+		error : function(error) {
+			// Handle error
+			console.error("Error sending push " + JSON.stringify(error));
+		}
+	});
+
+};
+
+//TODO: Data cleanup tasks to be done ..
+//Truncate or archive meals , meal images, that are older than x days ...
+// Truncate users or archive usrs, older than x days
+
+// TODO : Need to setup test data .. both meals and summaries and everything else....
+
+//TODO: Push notification on summary card has to validate  that this is a full summary card, before taking action, otherwise it is useless...Specially that we create Blank placeholder ones

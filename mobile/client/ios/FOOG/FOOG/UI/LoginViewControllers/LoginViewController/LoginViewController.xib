@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14E46" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="LoginViewController">
+            <connections>
+                <outlet property="emailTF" destination="M1q-N0-Azn" id="zdA-30-UxH"/>
+                <outlet property="foogLogoCoachView" destination="zbj-H8-3we" id="4TV-cB-yBR"/>
+                <outlet property="foogLogoView" destination="DOS-1m-25u" id="QEw-TA-8Vv"/>
+                <outlet property="passwordTF" destination="nPP-I9-wSE" id="rYh-bo-g0e"/>
+                <outlet property="scrollView" destination="6aa-vI-DBU" id="FjI-6j-rLG"/>
+                <outlet property="scrollViewBottomSpaceConstraint" destination="zSJ-BJ-DCY" id="jAY-Mg-U0P"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <scrollView multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6aa-vI-DBU">
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
+                    <subviews>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Xqy-1q-9Ca">
+                            <rect key="frame" x="20" y="436" width="280" height="51"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="51" id="JvV-Sq-yJR"/>
+                                <constraint firstAttribute="width" constant="280" id="pzr-uh-GYT"/>
+                            </constraints>
+                            <state key="normal" title="Sign In" backgroundImage="ButtonRect.png">
+                                <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <connections>
+                                <action selector="signInBtnClicked:" destination="-1" eventType="touchUpInside" id="UM6-7K-bej"/>
+                            </connections>
+                        </button>
+                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" placeholder="Email" textAlignment="center" minimumFontSize="17" background="TextFieldBackground.png" translatesAutoresizingMaskIntoConstraints="NO" id="M1q-N0-Azn">
+                            <rect key="frame" x="20" y="326" width="280" height="35"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="35" id="8Z4-4o-gA0"/>
+                                <constraint firstAttribute="width" constant="280" id="yBS-hX-HDa"/>
+                            </constraints>
+                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="18"/>
+                            <textInputTraits key="textInputTraits" keyboardType="emailAddress" returnKeyType="next"/>
+                            <userDefinedRuntimeAttributes>
+                                <userDefinedRuntimeAttribute type="color" keyPath="_placeholderLabel.textColor">
+                                    <color key="value" white="0.59596011510000002" alpha="1" colorSpace="calibratedWhite"/>
+                                </userDefinedRuntimeAttribute>
+                            </userDefinedRuntimeAttributes>
+                            <connections>
+                                <outlet property="delegate" destination="-1" id="wfC-yu-OHQ"/>
+                            </connections>
+                        </textField>
+                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" placeholder="Password" textAlignment="center" minimumFontSize="17" background="TextFieldBackground.png" translatesAutoresizingMaskIntoConstraints="NO" id="nPP-I9-wSE">
+                            <rect key="frame" x="20" y="381" width="280" height="35"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="280" id="NdD-05-qiR"/>
+                                <constraint firstAttribute="height" constant="35" id="XS5-n4-vAJ"/>
+                            </constraints>
+                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="18"/>
+                            <textInputTraits key="textInputTraits" keyboardType="emailAddress" returnKeyType="go" secureTextEntry="YES"/>
+                            <userDefinedRuntimeAttributes>
+                                <userDefinedRuntimeAttribute type="color" keyPath="_placeholderLabel.textColor">
+                                    <color key="value" white="0.59596011510000002" alpha="1" colorSpace="calibratedWhite"/>
+                                </userDefinedRuntimeAttribute>
+                            </userDefinedRuntimeAttributes>
+                            <connections>
+                                <outlet property="delegate" destination="-1" id="EGH-ur-HrT"/>
+                            </connections>
+                        </textField>
+                        <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zbj-H8-3we">
+                            <rect key="frame" x="11" y="151" width="298" height="160"/>
+                            <subviews>
+                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="FoogLogoCoach.png" translatesAutoresizingMaskIntoConstraints="NO" id="hEO-dA-on0">
+                                    <rect key="frame" x="20" y="0.0" width="258" height="109"/>
+                                    <constraints>
+                                        <constraint firstAttribute="width" constant="258" id="jFc-GB-XZK"/>
+                                        <constraint firstAttribute="height" constant="109" id="oGQ-mx-2hL"/>
+                                    </constraints>
+                                </imageView>
+                            </subviews>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            <constraints>
+                                <constraint firstItem="hEO-dA-on0" firstAttribute="leading" secondItem="zbj-H8-3we" secondAttribute="leading" constant="20" id="FUx-g8-CEw"/>
+                                <constraint firstItem="hEO-dA-on0" firstAttribute="top" secondItem="zbj-H8-3we" secondAttribute="top" id="NF3-zC-P8U"/>
+                                <constraint firstAttribute="height" constant="160" id="NRp-O4-ydC"/>
+                                <constraint firstAttribute="width" constant="298" id="Z1i-a8-L87"/>
+                            </constraints>
+                        </view>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DOS-1m-25u">
+                            <rect key="frame" x="11" y="160" width="298" height="141"/>
+                            <subviews>
+                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="FoogLogo.png" translatesAutoresizingMaskIntoConstraints="NO" id="BT5-AS-NHR">
+                                    <rect key="frame" x="20" y="0.0" width="258" height="70"/>
+                                    <constraints>
+                                        <constraint firstAttribute="width" constant="258" id="4we-ke-tzp"/>
+                                        <constraint firstAttribute="height" constant="70" id="Bcd-3d-6dF"/>
+                                    </constraints>
+                                </imageView>
+                            </subviews>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="298" id="FaL-sC-P0w"/>
+                                <constraint firstItem="BT5-AS-NHR" firstAttribute="top" secondItem="DOS-1m-25u" secondAttribute="top" id="QCE-sT-Wp1"/>
+                                <constraint firstAttribute="height" constant="141" id="XQV-89-C8O"/>
+                                <constraint firstItem="BT5-AS-NHR" firstAttribute="leading" secondItem="DOS-1m-25u" secondAttribute="leading" constant="20" id="uJV-ZH-J85"/>
+                            </constraints>
+                        </view>
+                    </subviews>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstItem="Xqy-1q-9Ca" firstAttribute="top" secondItem="nPP-I9-wSE" secondAttribute="bottom" constant="20" id="7gv-KY-2od"/>
+                        <constraint firstItem="nPP-I9-wSE" firstAttribute="top" secondItem="M1q-N0-Azn" secondAttribute="bottom" constant="20" id="CHH-8d-rOg"/>
+                        <constraint firstAttribute="bottom" secondItem="Xqy-1q-9Ca" secondAttribute="bottom" constant="22" id="DRk-or-8WJ"/>
+                        <constraint firstItem="zbj-H8-3we" firstAttribute="top" secondItem="6aa-vI-DBU" secondAttribute="top" priority="900" constant="160" id="GTW-nZ-Zmc"/>
+                        <constraint firstItem="nPP-I9-wSE" firstAttribute="top" secondItem="zbj-H8-3we" secondAttribute="bottom" constant="70" id="HGQ-MW-nP0"/>
+                        <constraint firstAttribute="centerX" secondItem="Xqy-1q-9Ca" secondAttribute="centerX" id="HKT-5Q-TYT"/>
+                        <constraint firstAttribute="trailing" secondItem="Xqy-1q-9Ca" secondAttribute="trailing" constant="10" id="JAt-6K-lcy"/>
+                        <constraint firstAttribute="centerX" secondItem="nPP-I9-wSE" secondAttribute="centerX" id="NBF-gw-0dI"/>
+                        <constraint firstItem="zbj-H8-3we" firstAttribute="top" relation="lessThanOrEqual" secondItem="6aa-vI-DBU" secondAttribute="top" constant="160" id="YmA-G3-xxe"/>
+                        <constraint firstAttribute="centerX" secondItem="zbj-H8-3we" secondAttribute="centerX" id="bf8-2s-9gj"/>
+                        <constraint firstItem="nPP-I9-wSE" firstAttribute="top" secondItem="DOS-1m-25u" secondAttribute="bottom" constant="80" id="e5y-BT-lk6"/>
+                        <constraint firstAttribute="centerX" secondItem="DOS-1m-25u" secondAttribute="centerX" id="lnt-QL-Aou"/>
+                        <constraint firstItem="DOS-1m-25u" firstAttribute="top" relation="lessThanOrEqual" secondItem="6aa-vI-DBU" secondAttribute="top" constant="160" id="ocY-ax-vxG"/>
+                        <constraint firstAttribute="centerX" secondItem="M1q-N0-Azn" secondAttribute="centerX" id="vaQ-Wh-Nds"/>
+                    </constraints>
+                </scrollView>
+            </subviews>
+            <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+            <constraints>
+                <constraint firstItem="6aa-vI-DBU" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="BTe-8T-Tfa"/>
+                <constraint firstItem="6aa-vI-DBU" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="Ixr-pq-omz"/>
+                <constraint firstAttribute="trailing" secondItem="6aa-vI-DBU" secondAttribute="trailing" id="UK7-ZY-BZR"/>
+                <constraint firstAttribute="bottom" secondItem="6aa-vI-DBU" secondAttribute="bottom" id="zSJ-BJ-DCY"/>
+            </constraints>
+            <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" barStyle="black" translucent="NO" prompted="NO"/>
+            <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="ButtonRect.png" width="300" height="51"/>
+        <image name="FoogLogo.png" width="258" height="70"/>
+        <image name="FoogLogoCoach.png" width="258" height="109"/>
+        <image name="TextFieldBackground.png" width="300" height="35"/>
+    </resources>
+</document>

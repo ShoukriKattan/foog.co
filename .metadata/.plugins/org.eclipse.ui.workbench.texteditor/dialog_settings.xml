@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section name="Workbench">
+	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
+		<item value="true" key="wrap"/>
+		<item value="false" key="isRegEx"/>
+		<item value="false" key="casesensitive"/>
+		<item value="false" key="wholeword"/>
+		<item value="saveUserMealSummary" key="selection"/>
+		<list key="findhistory">
+			<item value="saveUserMealSummary"/>
+			<item value="createSummaryCards"/>
+			<item value="error"/>
+			<item value="calculateWeekSummary"/>
+			<item value="Card"/>
+			<item value="Notifications"/>
+			<item value="query"/>
+			<item value="console"/>
+		</list>
+	</section>
+	<section name="org.eclipse.ui.texteditor.GotoLineAction$GotoLineDialog_dialogBounds">
+		<item value="289" key="DIALOG_Y_ORIGIN"/>
+		<item value="443" key="DIALOG_X_ORIGIN"/>
+	</section>
+</section>

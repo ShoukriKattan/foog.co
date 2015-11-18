@@ -1,0 +1,113 @@
+var utils = require("cloud/utils.js");
+
+var NOTIFICATION_TYPE_NEW_MEAL = "NewMeal";
+var NOTIFICATION_TYPE_COACH_REVIEWED_MEAL = "CoachReviewedMeal";
+var NOTIFICATION_TYPE_COACH_COMMENTED = "CoachCommented";
+var NOTIFICATION_TYPE_USER_COMMENTED = "UserCommented";
+var NOTIFICATION_TYPE_USER_SENT_LINK_REQUEST = "UserSentLinkRequest";
+var NOTIFICATION_TYPE_COACH_ACCEPTED_LINK_REQUEST = "CoachAcceptedLinkRequest";
+var NOTIFICATION_TYPE_COACH_REJECTED_LINK_REQUEST = "CoachRejectedLinkRequest";
+var NOTIFICATION_TYPE_USER_CANCELLED_LINK_REQUEST = "UserCancelledLinkRequest";
+var NOTIFICATION_TYPE_USER_UNLINKED = "UserUnlinked";
+var NOTIFICATION_TYPE_COACH_UNLINKED = "CoachUnlinked";
+
+var messages = new Array();
+
+messages[NOTIFICATION_TYPE_NEW_MEAL] = {
+	alert : "User {firstName} {lastName} submitted a new Meal",
+	title : "",
+	message : ""
+};
+
+messages[NOTIFICATION_TYPE_COACH_REVIEWED_MEAL] = {
+	alert : "Coach {firstName} {lastName} reviewed your Meal",
+	title : "",
+	message : ""
+};
+
+messages[NOTIFICATION_TYPE_COACH_COMMENTED] = {
+	alert : "",
+	title : "",
+	message : ""
+};
+
+messages[NOTIFICATION_TYPE_USER_COMMENTED] = {
+	alert : "",
+	title : "",
+	message : ""
+};
+
+messages[NOTIFICATION_TYPE_USER_SENT_LINK_REQUEST] = {
+	alert : "",
+	title : "",
+	message : ""
+};
+
+messages[NOTIFICATION_TYPE_COACH_ACCEPTED_LINK_REQUEST] = {
+	alert : "",
+	title : "",
+	message : ""
+};
+
+messages[NOTIFICATION_TYPE_COACH_REJECTED_LINK_REQUEST] = {
+	alert : "",
+	title : "",
+	message : ""
+};
+
+messages[NOTIFICATION_TYPE_USER_CANCELLED_LINK_REQUEST] = {
+	alert : "",
+	title : "",
+	message : ""
+};
+
+messages[NOTIFICATION_TYPE_USER_UNLINKED] = {
+	alert : "",
+	title : "",
+	message : ""
+};
+messages[NOTIFICATION_TYPE_COACH_UNLINKED] = {
+	alert : "",
+	title : "",
+	message : ""
+};
+
+exports.NOTIFICATION_TYPE_NEW_MEAL = NOTIFICATION_TYPE_NEW_MEAL;
+exports.NOTIFICATION_TYPE_COACH_REVIEWED_MEAL = NOTIFICATION_TYPE_COACH_REVIEWED_MEAL;
+exports.NOTIFICATION_TYPE_COACH_COMMENTED = NOTIFICATION_TYPE_COACH_COMMENTED;
+exports.NOTIFICATION_TYPE_USER_COMMENTED = NOTIFICATION_TYPE_USER_COMMENTED;
+exports.NOTIFICATION_TYPE_USER_SENT_LINK_REQUEST = NOTIFICATION_TYPE_USER_SENT_LINK_REQUEST;
+exports.NOTIFICATION_TYPE_COACH_ACCEPTED_LINK_REQUEST = NOTIFICATION_TYPE_COACH_ACCEPTED_LINK_REQUEST;
+exports.NOTIFICATION_TYPE_COACH_REJECTED_LINK_REQUEST = NOTIFICATION_TYPE_COACH_REJECTED_LINK_REQUEST;
+exports.NOTIFICATION_TYPE_USER_CANCELLED_LINK_REQUEST = NOTIFICATION_TYPE_USER_CANCELLED_LINK_REQUEST;
+exports.NOTIFICATION_TYPE_USER_UNLINKED = NOTIFICATION_TYPE_USER_UNLINKED;
+exports.NOTIFICATION_TYPE_COACH_UNLINKED = NOTIFICATION_TYPE_COACH_UNLINKED;
+
+exports.getPushData = function(notificationType, dstUser, notificationObjectId) {
+
+	var firstName = dstUser.get('firstName');
+	var lastName = dstUser.get('lastName');
+
+	var formatObject = [{
+		key : "firstName",
+		value : firstName
+	}, {
+		key : "lastName",
+		value : lastName
+	}];
+
+	var alert = utils.formatMsg(messages[notificationType].alert, formatObject);
+	var title = utils.formatMsg(messages[notificationType].title, formatObject);
+	var message = utils.formatMsg(messages[notificationType].message, formatObject);
+
+	return {
+		alert : alert,
+		type : notificationType,
+		objectId : notificationObjectId,
+		badge : 10,
+		title : title,
+		message : message
+
+	};
+};
+

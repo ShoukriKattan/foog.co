@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14E46" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="CoachViewController" customModule="FantasticHuman" customModuleProvider="target">
+            <connections>
+                <outlet property="activeButton" destination="t9u-yN-sGy" id="h5Z-ki-fRs"/>
+                <outlet property="collectionView" destination="dbl-vd-aWD" id="Ryo-Oe-Hrh"/>
+                <outlet property="inActiveButton" destination="dS0-u9-1bT" id="Kub-fu-35E"/>
+                <outlet property="noUsersLbl" destination="Xyh-tG-84e" id="21b-7C-2BT"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="416"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="t9u-yN-sGy" userLabel="ACTIVE Button">
+                    <rect key="frame" x="0.0" y="358" width="160" height="58"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="58" id="QZF-px-FHK"/>
+                    </constraints>
+                    <state key="normal" title="ACTIVE">
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="coachDidSelectActiveUsers:" destination="-1" eventType="touchUpInside" id="spA-pD-A6x"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dS0-u9-1bT" userLabel="INACTIVE Button">
+                    <rect key="frame" x="160" y="358" width="160" height="58"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="58" id="eRY-Qj-5lU"/>
+                    </constraints>
+                    <state key="normal" title="INACTIVE">
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="coachDidSelectInActiveUsers:" destination="-1" eventType="touchUpInside" id="MCg-z4-kc3"/>
+                    </connections>
+                </button>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dbl-vd-aWD" userLabel="container View" customClass="CoachCollectionView" customModule="FantasticHuman" customModuleProvider="target">
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="358"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                </view>
+                <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No active users." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="0.0" translatesAutoresizingMaskIntoConstraints="NO" id="Xyh-tG-84e">
+                    <rect key="frame" x="12" y="8" width="296" height="70"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="70" id="9tg-Oi-QXl"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="17"/>
+                    <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                    <nil key="highlightedColor"/>
+                </label>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstAttribute="bottom" secondItem="t9u-yN-sGy" secondAttribute="bottom" id="3SP-t9-5b2"/>
+                <constraint firstAttribute="trailing" secondItem="dbl-vd-aWD" secondAttribute="trailing" id="8ou-sC-PIQ"/>
+                <constraint firstItem="Xyh-tG-84e" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="12" id="9md-PB-eHT"/>
+                <constraint firstItem="dS0-u9-1bT" firstAttribute="leading" secondItem="t9u-yN-sGy" secondAttribute="trailing" id="FvQ-0H-AlK"/>
+                <constraint firstAttribute="bottom" secondItem="dS0-u9-1bT" secondAttribute="bottom" id="Kkk-e6-WHb"/>
+                <constraint firstItem="dS0-u9-1bT" firstAttribute="top" secondItem="dbl-vd-aWD" secondAttribute="bottom" id="PDp-8j-rgw"/>
+                <constraint firstItem="Xyh-tG-84e" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="8" id="RIk-Az-aKB"/>
+                <constraint firstItem="dbl-vd-aWD" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="RVE-Pf-W1x"/>
+                <constraint firstItem="dS0-u9-1bT" firstAttribute="width" secondItem="t9u-yN-sGy" secondAttribute="width" id="Sqc-DM-q8C"/>
+                <constraint firstAttribute="trailing" secondItem="Xyh-tG-84e" secondAttribute="trailing" constant="12" id="aLp-DB-oDK"/>
+                <constraint firstItem="t9u-yN-sGy" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="e5z-1A-8yE"/>
+                <constraint firstItem="t9u-yN-sGy" firstAttribute="bottom" secondItem="dbl-vd-aWD" secondAttribute="bottom" constant="58" id="mz1-1Y-vd4"/>
+                <constraint firstItem="dbl-vd-aWD" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="uMf-YD-lQg"/>
+                <constraint firstAttribute="trailing" secondItem="dS0-u9-1bT" secondAttribute="trailing" id="zvi-jR-IQI"/>
+            </constraints>
+            <simulatedStatusBarMetrics key="simulatedStatusBarMetrics" statusBarStyle="lightContent"/>
+            <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" barStyle="black" translucent="NO" prompted="NO"/>
+            <simulatedScreenMetrics key="simulatedDestinationMetrics"/>
+            <point key="canvasLocation" x="281" y="221"/>
+        </view>
+    </objects>
+</document>
